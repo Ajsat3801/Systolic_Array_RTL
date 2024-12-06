@@ -9,11 +9,12 @@ module Systolic_array #(
     input rst,
     input [VERTICAL_BW*ARR_SIZE-1:0] vertical_input,
     input [HORIZONTAL_BW*ARR_SIZE-1:0] horizontal_input,
-    output reg [ARR_SIZE*HORIZONTAL_BW -1:0] accumulated_val
+    output reg [HORIZONTAL_BW-1:0] accumulator_op; 
 );
 
     wire [HORIZONTAL_BW*-1:0]horizontal_wires[ARR_SIZE-1:0][ARR_SIZE-1:0];
     wire [VERTICAL_BW-1:0]vertical_wires[ARR_SIZE-1:0][ARR_SIZE-1:0];
+    reg [ARR_SIZE*HORIZONTAL_BW -1:0] accumulator_val;
 
     generate
         
@@ -103,6 +104,23 @@ module Systolic_array #(
                 .A(accumulated_val[k*HORIZONTAL_BW+HORIZONTAL_BW-1:k*HORIZONTAL_BW]),
                 .B(horizontal_wires[ARR_SIZE-1][k]),
                 .O(accumulated_val[k*HORIZONTAL_BW+HORIZONTAL_BW-1:k*HORIZONTAL_BW])
+            )
+
+        end
+
+    endgenerate
+
+    // Add the values of the accumulated value to give final output
+    generate
+
+        for(genvar k = 0; k<ARR_SIZE; k++) begin
+            
+            adder accumulator(
+                .clk(clk),
+                .rst(rst),
+                .A(accumulated_val[k*HORIZONTAL_BW+HORIZONTAL_BW-1:k*HORIZONTAL_BW]),
+                .B(accumulator_op),
+                .O(accumulator_op)
             )
 
         end
