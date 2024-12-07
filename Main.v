@@ -5,7 +5,8 @@ module accelerator #(
 ){
     input clk,
     input [63:0] accelerator_input,
-    output reg [63:0] accelerator_output
+    output reg [31:0] accelerator_output,
+    output reg buffer_full
 }
 
 wire [63:0] instr_buffer_to_controller;
@@ -17,7 +18,6 @@ wire [31:0] controller_to_wt_buf_data;
 wire [3:0] controller_to_acc_op_addr;
 wire controller_to_acc_reset;
 wire [3:0] controller_to_op_buf_addr;
-wire buffer_full;
 
 
 
