@@ -63,8 +63,9 @@ Accumulator Accumulator_instance(
     .clk(clk)
     .op_buffer_address(controller_to_acc_op_addr),
     .accumulated_val(mac_to_accumulator),
+    .acc_reset(controller_to_acc_reset),
     .output_data(acc_to_op_buf_data),
     .output_buffer_addr(acc_to_op_buf_addr)
-)
+);
 
 endmodule

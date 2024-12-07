@@ -4,6 +4,7 @@ module Accumulator #(
     input clk
     input [4:0] op_buffer_address,
     input [ARR_SIZE*32:0] accumulated_val,
+    input acc_reset,
     output reg [31:0] output_data,
     output reg [3:0] output_buffer_addr,
 );
