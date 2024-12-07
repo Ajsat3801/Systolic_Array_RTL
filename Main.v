@@ -10,10 +10,10 @@ module accelerator #(
 
 wire [63:0] instr_buffer_to_controller;
 
-wire [15:0] controller_to_inp_buf_addr;
-wire [15:0] controller_to_inp_buf_data;
-wire [15:0] controller_to_wt_buf_addr;
-wire [15:0] controller_to_wt_buf_data;
+wire [14:0] controller_to_inp_buf_addr;
+wire [31:0] controller_to_inp_buf_data;
+wire [14:0] controller_to_wt_buf_addr;
+wire [31:0] controller_to_wt_buf_data;
 wire [3:0] controller_to_acc_op_addr;
 wire controller_to_acc_reset;
 wire [3:0] controller_to_op_buf_addr;
@@ -42,7 +42,6 @@ weight_buffer weight_buffer_instance( //incomplete
     .clk(clk)
 
 );
-
 
 wire [31:0] acc_to_op_buf_data;
 wire [3:0] acc_to_op_buf_addr;

@@ -3,10 +3,10 @@ module controller #(
 )(
     input clk,
     input [63:0] instruction,
-    output reg [15:0] inp_buf_addr,
-    output reg [15:0] inp_buf_data,
-    output reg [15:0] wt_buf_addr,
-    output reg [15:0] wt_buf_data,
+    output reg [14:0] inp_buf_addr,
+    output reg [31:0] inp_buf_data,
+    output reg [14:0] wt_buf_addr,
+    output reg [31:0] wt_buf_data,
     output reg [3:0] acc_to_op_buf_addr,
     output reg acc_result_to_op_buf,
     output reg [3:0] acc_to_op_buf_addr
@@ -14,8 +14,8 @@ module controller #(
 
 // Internal registers
 reg [4:0] opcode;
-reg [15:0] address;
-reg [15:0] data;
+reg [14:0] address;
+reg [31:0] data;
 
 //Instruction Decode    
 always @(posedge clk) begin
@@ -24,10 +24,10 @@ always @(posedge clk) begin
     data = instruction[42:27]; // 16-bit data
 
     //Initialisation
-    inp_buf_addr = 16'b0;
-    inp_buf_data = 16'b0;
-    wt_buf_addr = 16'b0;
-    wt_buf_data = 16'b0;
+    inp_buf_addr = 15'b0;
+    inp_buf_data = 32'b0;
+    wt_buf_addr = 15'b0;
+    wt_buf_data = 32'b0;
     acc_to_op_buf_addr = 4'b0;
     acc_result_to_op_buf = 1'b0;
     out_buf_addr = 4'b0;
@@ -35,8 +35,11 @@ always @(posedge clk) begin
     // Opcode based decode
     case (opcode)
         5'b00000: begin 
-            //Do nothing
-        end    
+            //No instruction received
+        end
+        5'b11111: begin 
+            //NOP
+        end   
         5'b00001: begin // MAC
             inp_buf_addr = address; // Input buffer address
         end
@@ -59,7 +62,7 @@ always @(posedge clk) begin
             out_buf_addr = address[3:0]; // Source address in output buffer
         end
         default: begin
-            //Unknown Opcode,do nothing, treat it as NOP for now
+            //Unknown Opcode,do nothing
         end
     endcase
 end
