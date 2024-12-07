@@ -41,25 +41,25 @@ always @(posedge clk) begin
             //NOP
         end   
         5'b00001: begin // MAC
-            inp_buf_addr = address; // Input buffer address
+            inp_buf_addr <= address; // Input buffer address
         end
         5'b00010: begin // Send weights
-            wt_buf_addr = address; // Source address in weight buffer
+            wt_buf_addr <= address; // Source address in weight buffer
         end
         5'b00011: begin // Store Output
-            acc_to_op_buf_addr = address[3:0]; // Destination in output buffer
-            acc_result_to_op_buf = 1'b1; // Send accumulator result
+            acc_to_op_buf_addr <= address[3:0]; // Destination in output buffer
+            acc_result_to_op_buf <= 1'b1; // Send accumulator result
         end
         5'b00100: begin // Receive inputs
-            inp_buf_addr = address; // Destination address in input buffer
-            inp_buf_data = data; // Data to be stored in input buffer
+            inp_buf_addr <= address; // Destination address in input buffer
+            inp_buf_data <= data; // Data to be stored in input buffer
         end
         5'b00101: begin // Receive weights
-            wt_buf_addr = address; // Destination address in weight buffer
-            wt_buf_data = data; // Data to be stored in weight buffer
+            wt_buf_addr <= address; // Destination address in weight buffer
+            wt_buf_data <= data; // Data to be stored in weight buffer
         end
         5'b00110: begin // Transmit output
-            out_buf_addr = address[3:0]; // Source address in output buffer
+            out_buf_addr <= address[3:0]; // Source address in output buffer
         end
         default: begin
             //Unknown Opcode,do nothing
