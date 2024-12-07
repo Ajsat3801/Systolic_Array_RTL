@@ -4,6 +4,7 @@ module accelerator #(
     parameter ARR_SIZE = 4
 ){
     input clk,
+    input external_clk,
     input [63:0] accelerator_input,
     output reg [31:0] accelerator_output,
     output reg buffer_full
@@ -23,6 +24,7 @@ wire [3:0] controller_to_op_buf_addr;
 
 instruction_buffer instr_buffer_instance(
     .clk(clk),
+    .external_clk(external_clk),
     .interface_input(accelerator_input),
     .instr_to_controller(instr_buffer_to_controller),
     .buffer_full(buffer_full)
