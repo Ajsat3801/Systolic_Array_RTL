@@ -17,24 +17,26 @@ wire [31:0] controller_to_wt_buf_data;
 wire [3:0] controller_to_acc_op_addr;
 wire controller_to_acc_reset;
 wire [3:0] controller_to_op_buf_addr;
+wire buffer_full;
 
 
 
 instruction_buffer instr_buffer_instance(
-    .clk(clk)
-    .interface_input(accelerator_input)
-    .instr_to_controller(instr_buffer_to_controller)
+    .clk(clk),
+    .interface_input(accelerator_input),
+    .instr_to_controller(instr_buffer_to_controller),
+    .buffer_full(buffer_full)
 );
 
 controller controller_instance(
-    .clk(clk)
-    .instruction(instr_buffer_to_controller)
-    .inp_buf_addr(controller_to_inp_buf_addr)
-    .inp_buf_data(controller_to_inp_buf_data)
-    .wt_buf_addr(controller_to_wt_buf_addr)
-    .wt_buf_data(controller_to_wt_buf_data)
-    .acc_to_op_buf_addr(controller_to_acc_op_addr)
-    .acc_result_to_op_buf(controller_to_acc_reset)
+    .clk(clk),
+    .instruction(instr_buffer_to_controller),
+    .inp_buf_addr(controller_to_inp_buf_addr),
+    .inp_buf_data(controller_to_inp_buf_data),
+    .wt_buf_addr(controller_to_wt_buf_addr),
+    .wt_buf_data(controller_to_wt_buf_data),
+    .acc_to_op_buf_addr(controller_to_acc_op_addr),
+    .acc_result_to_op_buf(controller_to_acc_reset),
     .acc_to_op_buf_addr(controller_to_op_buf_addr)
 );
 
