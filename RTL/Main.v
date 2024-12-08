@@ -19,7 +19,7 @@ wire [31:0] controller_to_wt_buf_data;
 wire [3:0] controller_to_acc_op_addr;
 wire controller_to_acc_reset;
 wire [3:0] controller_to_op_buf_addr;
-
+wire controller_to_op_buf_instr;
 
 
 instruction_buffer instr_buffer_instance(
@@ -39,7 +39,8 @@ controller controller_instance(
     .wt_buf_data(controller_to_wt_buf_data),
     .acc_to_op_buf_addr(controller_to_acc_op_addr),
     .acc_result_to_op_buf(controller_to_acc_reset),
-    .acc_to_op_buf_addr(controller_to_op_buf_addr)
+    .acc_to_op_buf_addr(controller_to_op_buf_addr),
+    .op_buffer_instr_for_sending_data(controller_to_op_buf_instr)
 );
 
 wire [32*ARR_SIZE-1:0] mac_to_accumulator;
@@ -57,6 +58,7 @@ Output_buffer Output_buffer_instance(
     .data(acc_to_op_buf_data),
     .op_buf_addr_for_store(acc_to_op_buf_addr),
     .op_buf_addr_for_external_comm(controller_to_op_buf_addr),
+    .op_buffer_instr_for_sending_data(controller_to_op_buf_instr),
     .res_to_external(accelerator_output)
 );
 

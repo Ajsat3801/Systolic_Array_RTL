@@ -47,6 +47,9 @@ module Accumulator #(
 
     always @(posedge clk) begin
 
+        output_data = 32'b0;
+        output_buffer_addr = 4'b0;
+
         if(acc_reset == 1) begin
             accumulator_op <= 32'b0;
         end

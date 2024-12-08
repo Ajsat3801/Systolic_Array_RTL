@@ -9,7 +9,8 @@ module controller #(
     output reg [31:0] wt_buf_data,
     output reg [3:0] acc_to_op_buf_addr,
     output reg acc_result_to_op_buf,
-    output reg [3:0] acc_to_op_buf_addr
+    output reg [3:0] acc_to_op_buf_addr,
+    output reg op_buffer_instr_for_sending_data
 );
 
 // Internal registers
@@ -31,6 +32,7 @@ always @(posedge clk) begin
     acc_to_op_buf_addr = 4'b0;
     acc_result_to_op_buf = 1'b0;
     out_buf_addr = 4'b0;
+    op_buffer_instr_for_sending_data = 1'b0;
 
     // Opcode based decode
     case (opcode)
@@ -60,6 +62,7 @@ always @(posedge clk) begin
         end
         5'b00110: begin // Transmit output
             out_buf_addr <= address[3:0]; // Source address in output buffer
+            op_buffer_instr_for_sending_data <= 1'b1;
         end
         default: begin
             //Unknown Opcode,do nothing
