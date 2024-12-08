@@ -11,7 +11,8 @@ module controller #(
     output reg acc_result_to_op_buf,
     output reg [3:0] acc_to_op_buf_addr,
     output reg op_buffer_instr_for_sending_data,
-    output reg instr_for_accum_to_op_buf_data
+    output reg instr_for_accum_to_reset,
+    output reg [1:0] state_signal //01 for write enable, 10 to start streaming data, 00 NOP
 );
 
 // Internal registers
@@ -34,7 +35,8 @@ always @(posedge clk) begin
     acc_result_to_op_buf = 1'b0;
     out_buf_addr = 4'b0;
     op_buffer_instr_for_sending_data = 1'b0;
-    instr_for_accum_to_op_buf_data = 1'b0;
+    instr_for_accum_to_reset = 1'b0;
+    state_signal = 2'b0;
 
     // Opcode based decode
     case (opcode)
@@ -45,29 +47,34 @@ always @(posedge clk) begin
             //NOP
         end   
         5'b00001: begin // MAC
-            inp_buf_addr <= address; // Input buffer address
+            state_signal <= 2b'10; //Command to start streaming the inputs
         end
         5'b00010: begin // Send weights
-            wt_buf_addr <= address; // Source address in weight buffer
+            state_signal <= 2b'10; //Command to start streaming the
         end
         5'b00011: begin // Store Output
+            state_signal <= 2b'01; //Write enble
             acc_to_op_buf_addr <= address[3:0]; // Destination in output buffer
             acc_result_to_op_buf <= 1'b1; // Send accumulator result
         end
         5'b00100: begin // Receive inputs
+            state_signal <= 2b'01; //Write enble
             inp_buf_addr <= address; // Destination address in input buffer
             inp_buf_data <= data; // Data to be stored in input buffer
         end
         5'b00101: begin // Receive weights
+            state_signal <= 2b'01; //Write enble
             wt_buf_addr <= address; // Destination address in weight buffer
             wt_buf_data <= data; // Data to be stored in weight buffer
         end
         5'b00110: begin // Transmit output
+            state_signal <= 2b'01; //Write enble
             out_buf_addr <= address[3:0]; // Source address in output buffer
             op_buffer_instr_for_sending_data <= 1'b1;
         end
         5'b00111: begin // Instruct the accumulator to send a copy of data to the output buffer
-            instr_for_accum_to_op_buf_data <= 1'b1; 
+            state_signal <= 2b'01; //Write enble
+            instr_for_accum_to_reset <= 1'b1; 
         end       
         default: begin
             //Unknown Opcode,do nothing

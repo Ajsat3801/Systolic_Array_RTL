@@ -20,7 +20,8 @@ wire [3:0] controller_to_acc_op_addr;
 wire controller_to_acc_reset;
 wire [3:0] controller_to_op_buf_addr;
 wire controller_to_op_buf_instr;
-wire instr_for_accum_to_op_buf_data;
+wire instr_for_accum_to_reset;
+wire [1:0] state_signal;
 
 
 instruction_buffer instr_buffer_instance(
@@ -42,7 +43,8 @@ controller controller_instance(
     .acc_result_to_op_buf(controller_to_acc_reset),
     .acc_to_op_buf_addr(controller_to_op_buf_addr),
     .op_buffer_instr_for_sending_data(controller_to_op_buf_instr),
-    .instr_for_accum_to_op_buf_data(instr_for_accum_to_op_buf_data)
+    .instr_for_accum_to_reset(instr_for_accum_to_reset),
+    .state_signal(state_signal)
 );
 
 wire [32*ARR_SIZE-1:0] mac_to_accumulator;
@@ -80,7 +82,7 @@ Buffer weight_buffer_instance (
     .reset(reset),
     .data_in(weight_data_in),
     .addr(weight_addr),
-    .write_enable(weight_write_enable),
+    .state(weight_state), // Control signal: 00, 01, or 10
     .data_out(weight_data_out),
     .empty(weight_empty),
     .full(weight_full)
@@ -91,11 +93,12 @@ Buffer input_buffer_instance (
     .reset(reset),
     .data_in(input_data_in),
     .addr(input_addr),
-    .write_enable(input_write_enable),
+    .state(input_state), // Control signal: 00, 01, or 10
     .data_out(input_data_out),
     .empty(input_empty),
     .full(input_full)
 );
+
 
 
 endmodule
