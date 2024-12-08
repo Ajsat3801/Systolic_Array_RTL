@@ -83,10 +83,3 @@ always @(posedge clk) begin
 end
 
 endmodule
-
-//10 for streaming the inputs for both buffers
-//01 write enable
-//00 NOP
-
-//case 1 - send data to buffer only, no reset
-//111 only reset, no data to buffer
