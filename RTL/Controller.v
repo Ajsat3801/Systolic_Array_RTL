@@ -71,13 +71,10 @@ always @(posedge clk) begin
             wt_buf_data <= data; // Data to be stored in weight buffer
         end
         5'b00110: begin // Transmit output
-            state_signal <= 2b'01; //Write enble
             out_buf_addr <= address[3:0]; // Source address in output buffer
             op_buffer_instr_for_sending_data <= 1'b1;
         end
-        5'b00111: begin
-            // Instruct the accumulator to send a copy of data to the output buffer
-            state_signal <= 2b'01; //Write enble
+        5'b00111: begin // Reset accumulator
             instr_for_accum_to_reset <= 1'b1; 
         end       
         default: begin
