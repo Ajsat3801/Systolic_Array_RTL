@@ -22,6 +22,7 @@ wire [3:0] controller_to_op_buf_addr;
 wire controller_to_op_buf_instr;
 wire instr_for_accum_to_reset;
 wire [1:0] state_signal;
+wire i_mode;
 
 
 instruction_buffer instr_buffer_instance(
@@ -44,7 +45,8 @@ controller controller_instance(
     .acc_to_op_buf_addr(controller_to_op_buf_addr),
     .op_buffer_instr_for_sending_data(controller_to_op_buf_instr),
     .instr_for_accum_to_reset(instr_for_accum_to_reset),
-    .state_signal(state_signal)
+    .state_signal(state_signal),
+    .i_mode(i_mode)
 );
 
 wire [32*ARR_SIZE-1:0] mac_to_accumulator;

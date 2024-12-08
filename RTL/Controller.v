@@ -12,7 +12,8 @@ module controller #(
     output reg [3:0] acc_to_op_buf_addr,
     output reg op_buffer_instr_for_sending_data,
     output reg instr_for_accum_to_reset,
-    output reg [1:0] state_signal //01 for write enable, 10 to start streaming data, 00 NOP
+    output reg [1:0] state_signal, //01 for write enable, 10 to start streaming data, 00 NOP
+    output reg i_mode
 );
 
 // Internal registers
@@ -37,6 +38,7 @@ always @(posedge clk) begin
     op_buffer_instr_for_sending_data = 1'b0;
     instr_for_accum_to_reset = 1'b0;
     state_signal = 2'b0;
+    i_mode = 1'b0;
 
     // Opcode based decode
     case (opcode)
@@ -50,7 +52,8 @@ always @(posedge clk) begin
             state_signal <= 2b'10; //Command to start streaming the inputs
         end
         5'b00010: begin // Send weights
-            state_signal <= 2b'10; //Command to start streaming the
+            state_signal <= 2b'10; //Command to start streaming the weights
+            i_mode <= 1'b1; //Signal to MAC to start accepting weights from the weight buffer
         end
         5'b00011: begin // Store Output
             state_signal <= 2b'01; //Write enble
