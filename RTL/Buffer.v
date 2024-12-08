@@ -16,7 +16,7 @@ module Buffer (
     reg [13:0] read_ptr = 0;           // Read pointer
     reg [13:0] count = 0;              // Counter for elements in the buffer
 
-    // Empty and Full flag logic
+    /*// Empty and Full flag logic
     always @(posedge clk or posedge reset) begin
         if (reset) begin
             empty <= 1;
@@ -25,7 +25,7 @@ module Buffer (
             empty <= (count == 0);
             full <= (count == BUFFER_SIZE);
         end
-    end
+    end*/
 
     // Write logic (state = 01)
     always @(posedge clk) begin
