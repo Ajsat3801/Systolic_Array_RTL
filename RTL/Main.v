@@ -20,6 +20,7 @@ wire [3:0] controller_to_acc_op_addr;
 wire controller_to_acc_reset;
 wire [3:0] controller_to_op_buf_addr;
 wire controller_to_op_buf_instr;
+wire instr_for_accum_to_op_buf_data;
 
 
 instruction_buffer instr_buffer_instance(
@@ -40,7 +41,8 @@ controller controller_instance(
     .acc_to_op_buf_addr(controller_to_acc_op_addr),
     .acc_result_to_op_buf(controller_to_acc_reset),
     .acc_to_op_buf_addr(controller_to_op_buf_addr),
-    .op_buffer_instr_for_sending_data(controller_to_op_buf_instr)
+    .op_buffer_instr_for_sending_data(controller_to_op_buf_instr),
+    .instr_for_accum_to_op_buf_data(instr_for_accum_to_op_buf_data)
 );
 
 wire [32*ARR_SIZE-1:0] mac_to_accumulator;
