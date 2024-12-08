@@ -3,9 +3,9 @@ module controller #(
 )(
     input clk,
     input [63:0] instruction,
-    output reg [14:0] inp_buf_addr,
+    output reg [13:0] inp_buf_addr,
     output reg [31:0] inp_buf_data,
-    output reg [14:0] wt_buf_addr,
+    output reg [13:0] wt_buf_addr,
     output reg [31:0] wt_buf_data,
     output reg [3:0] acc_to_op_buf_addr,
     output reg acc_result_to_op_buf,
@@ -18,19 +18,19 @@ module controller #(
 
 // Internal registers
 reg [4:0] opcode;
-reg [14:0] address;
+reg [13:0] address;
 reg [31:0] data;
 
 //Instruction Decode    
 always @(posedge clk) begin
     opcode = instruction[63:59]; // 5-bit opcode
-    address = instruction[58:43]; // 16-bit address
-    data = instruction[42:27]; // 16-bit data
+    address = instruction[58:45]; // 16-bit address
+    data = instruction[44:13]; // 32-bit data
 
     //Initialisation
-    inp_buf_addr = 15'b0;
+    inp_buf_addr = 13'b0;
     inp_buf_data = 32'b0;
-    wt_buf_addr = 15'b0;
+    wt_buf_addr = 13'b0;
     wt_buf_data = 32'b0;
     acc_to_op_buf_addr = 4'b0;
     acc_result_to_op_buf = 1'b0;

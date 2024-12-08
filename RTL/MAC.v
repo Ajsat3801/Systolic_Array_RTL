@@ -17,8 +17,8 @@ module MAC #(
 
     generate
         
-        for (genvar i=0;i<ARR_SIZE;i++) begin // generates rows of elements
-            for (genvar j=0;j<ARR_SIZE;j++) begin // generate each row of elements
+        for (genvar i=0;i<ARR_SIZE;i=i+1) begin // generates rows of elements
+            for (genvar j=0;j<ARR_SIZE;j=j+1) begin // generate each row of elements
                 
                 // Types of elements
                 //  1) Corner Elements:
@@ -90,7 +90,7 @@ module MAC #(
 
     endgenerate
 
-    for(k=0;k<ARR_SIZE;k++) begin
+    for(k=0;k<ARR_SIZE;k=k+1) begin
         accumulator_op[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW] = vertical_wires[ARR_SIZE-1][k]
     end
 

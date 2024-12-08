@@ -2,7 +2,8 @@ module Accumulator #(
     parameter ARR_SIZE=4,
     parameter VERTICAL_BW=32
 )(
-    input clk
+    input clk,
+    input rst
     input [3:0] op_buffer_address,
     input [ARR_SIZE*VERTICAL_BW-1:0] accumulated_val,
     input acc_reset,
@@ -16,11 +17,11 @@ module Accumulator #(
 
     generate
 
-        for(genvar k = 0; k<ARR_SIZE; k++) begin
+        for(genvar k = 0; k<ARR_SIZE; k=k+1) begin
             
             adder accumulator(
                 .clk(clk),
-                .rst(rst),
+                .rst(acc_reset||rst),
                 .A(accumulated_val[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW]),
                 .B(horizontal_wires[ARR_SIZE-1][k]),
                 .O(accumulated_val[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW])
@@ -37,7 +38,7 @@ module Accumulator #(
             
             adder accumulator(
                 .clk(clk),
-                .rst(rst),
+                .rst(acc_reset||rst),
                 .A(accumulated_val[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW]),
                 .B(accumulator_op),
                 .O(accumulator_op)
@@ -53,13 +54,15 @@ module Accumulator #(
         output_buffer_addr = 4'b0;
         output_buffer_enable = 1'b0;
 
-        if(acc_reset == 1) begin
+        if((acc_reset == 1) || (rst == 1)) begin
             accumulator_op <= 32'b0;
         end
-        if(store_output == 1'b1) begin
-            output_data <= accumulator_op;
-            output_buffer_addr <= op_buffer_address;
-            output_buffer_enable <= store_output;
+        else begin
+            if(store_output == 1'b1) begin
+                output_data <= accumulator_op;
+                output_buffer_addr <= op_buffer_address;
+                output_buffer_enable <= store_output;
+            end
         end
          
     end

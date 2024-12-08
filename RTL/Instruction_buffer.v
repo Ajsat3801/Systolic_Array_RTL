@@ -1,5 +1,6 @@
 module instruction_buffer (
     input clk,
+    input rst,
     input external_clk //External interface clock assuming both are different
     input [63:0] interface_input,    //64-bit input from the external interface
     output reg [63:0] instr_to_controller, //64-bit output to the controller
@@ -36,12 +37,23 @@ module instruction_buffer (
         end
     end
     always @(posedge clk) begin
-        // Dequeue - Send instruction to the controller
-        if (count > 0) begin
-            instr_to_controller <= queue[head]; // Send instruction to controller
-            head <= (head + 1) % QUEUE_DEPTH;   // Increment head pointer (refer comment for tail)
-            count <= count - 1;               // Decrement instruction count
+        
+        if(rst==1)begin
+            head = 0;
+            tail = 0;
+            queue[0] = 64'b0;
         end
+        
+        
+        else begin
+            if (count > 0) begin // Dequeue - Send instruction to the controller
+                instr_to_controller <= queue[head]; // Send instruction to controller
+                head <= (head + 1) % QUEUE_DEPTH;   // Increment head pointer (refer comment for tail)
+                count <= count - 1;               // Decrement instruction count
+            end
+        end
+
+        
     end
 
 endmodule
