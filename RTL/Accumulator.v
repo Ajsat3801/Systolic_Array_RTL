@@ -12,7 +12,7 @@ module Accumulator #(
     output reg output_buffer_enable
 );
 
-    reg [31:0]accumulator_op
+    reg [31:0]accumulator_op;
 
     generate
 
