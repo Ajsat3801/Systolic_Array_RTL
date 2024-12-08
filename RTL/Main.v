@@ -80,7 +80,7 @@ Buffer weight_buffer_instance (
     .reset(reset),
     .data_in(weight_data_in),
     .addr(weight_addr),
-    .write_enable(weight_write_enable),
+    .state(weight_state), // Control signal: 00, 01, or 10
     .data_out(weight_data_out),
     .empty(weight_empty),
     .full(weight_full)
@@ -91,11 +91,12 @@ Buffer input_buffer_instance (
     .reset(reset),
     .data_in(input_data_in),
     .addr(input_addr),
-    .write_enable(input_write_enable),
+    .state(input_state), // Control signal: 00, 01, or 10
     .data_out(input_data_out),
     .empty(input_empty),
     .full(input_full)
 );
+
 
 
 endmodule
