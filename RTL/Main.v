@@ -42,8 +42,9 @@ controller controller_instance(
     .acc_to_op_buf_addr(controller_to_op_buf_addr)
 );
 
-weight_buffer weight_buffer_instance( //incomplete
-    .clk(clk)
+wire [32*ARR_SIZE-1:0] mac_to_accumulator;
+
+MAC mac_instance(
 
 );
 

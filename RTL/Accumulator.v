@@ -3,12 +3,14 @@ module Accumulator #(
     parameter VERTICAL_BW=32
 )(
     input clk
-    input [4:0] op_buffer_address,
+    input [3:0] op_buffer_address,
     input [ARR_SIZE*VERTICAL_BW-1:0] accumulated_val,
     input acc_reset,
     output reg [31:0] output_data,
     output reg [3:0] output_buffer_addr,
 );
+
+    reg [31:0]accumulator_op
 
     generate
 
@@ -45,6 +47,13 @@ module Accumulator #(
 
     always @(posedge clk) begin
 
+        if(acc_reset == 1) begin
+            accumulator_op <= 32'b0;
+        end
+        if(op_buffer_address!=4'b0000) begin
+            output_data <= accumulator_op;
+            output_buffer_addr <= op_buffer_address;
+        end
         
         
     end
