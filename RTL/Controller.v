@@ -75,7 +75,7 @@ always @(posedge clk) begin
             out_buf_addr <= address[3:0]; // Source address in output buffer
             op_buffer_instr_for_sending_data <= 1'b1;
         end
-        5'b00111: begin //test_check this
+        5'b00111: begin
             // Instruct the accumulator to send a copy of data to the output buffer
             state_signal <= 2b'01; //Write enble
             instr_for_accum_to_reset <= 1'b1; 
