@@ -16,9 +16,9 @@ module Output_buffer #(
     always @(posedge clk) begin
         
         if(rst==1) begin
-            for(i=0;i<16;i=i+1){
+            for(i=0;i<16;i=i+1) begin
                 buf_data[i] <= 32'b0;
-            }
+            end
         end
         else begin
 

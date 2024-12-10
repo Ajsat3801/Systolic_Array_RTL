@@ -4,7 +4,7 @@ module Buffer (
     input wire [31:0] data_in, // 32-bit input data
     input wire [13:0] addr,    // 14-bit address for 2^14 elements
     input wire [1:0] state,    // Two-bit state: 00 = No operation, 01 = Store, 10 = Stream
-    output reg [63:0] data_out, // 64-bit output data (2 concatenated 32-bit elements)
+    output reg [63:0] data_out // 64-bit output data (2 concatenated 32-bit elements)
     //output reg empty,          // Flag to indicate the buffer is empty
     //output reg full            // Flag to indicate the buffer is full
 );

@@ -1,7 +1,7 @@
 module instruction_buffer (
     input clk,
     input rst,
-    input external_clk //External interface clock assuming both are different
+    input external_clk, //External interface clock assuming both are different
     input [63:0] interface_input,    //64-bit input from the external interface
     output reg [63:0] instr_to_controller, //64-bit output to the controller
     output reg buffer_full                  //Signal indicating the buffer is buffer_full

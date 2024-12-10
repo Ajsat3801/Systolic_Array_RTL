@@ -3,7 +3,7 @@ module Accumulator #(
     parameter VERTICAL_BW=32
 )(
     input clk,
-    input rst
+    input rst,
     input [3:0] op_buffer_address,
     input [ARR_SIZE*VERTICAL_BW-1:0] accumulated_val,
     input acc_reset,

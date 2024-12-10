@@ -7,9 +7,9 @@ module MAC #(
     input clk,
     input i_mode,
     input rst,
-    input [VERTICAL_BW*ARR_SIZE-1:0] vertical_input,
+    input [HORIZONTAL_BW*ARR_SIZE-1:0] vertical_input,
     input [HORIZONTAL_BW*ARR_SIZE-1:0] horizontal_input,
-    output reg [ARR_SIZE*VERTICAL_BW -1:0] accumulator_op; 
+    output reg [ARR_SIZE*VERTICAL_BW -1:0] accumulator_op
 );
 
     wire [HORIZONTAL_BW*-1:0]horizontal_wires[ARR_SIZE-1:0][ARR_SIZE-1:0];
@@ -37,12 +37,12 @@ module MAC #(
 
                 if(i==0 && j==0) begin //top-left corner element
                     PE pe_instance(
-                        .clk(clk)
-                        .rst(rst)
-                        .i_mode(i_mode)
-                        .i_top(vertical_input[i*VERTICAL_BW+VERTICAL_BW-1:i*VERTICAL_BW])
-                        .i_left(horizontal_input[i*HORIZONTAL_BW+HORIZONTAL_BW-1:i*HORIZONTAL_BW])
-                        .o_bot(vertical_wires[i][j])
+                        .clk(clk),
+                        .rst(rst),
+                        .i_mode(i_mode),
+                        .i_top({16'b0,vertical_input[i*HORIZONTAL_BW+HORIZONTAL_BW_BW-1:i*HORIZONTAL_BW]}),
+                        .i_left(horizontal_input[i*HORIZONTAL_BW+HORIZONTAL_BW-1:i*HORIZONTAL_BW]),
+                        .o_bot(vertical_wires[i][j]),
                         .o_right(horizontal_wires[i][j])
                     );
 
@@ -50,36 +50,36 @@ module MAC #(
 
                 if(i==0 && j!=0) begin //Top elements
                     PE pe_instance(
-                        .clk(clk)
-                        .rst(rst)
-                        .i_mode(i_mode)
-                        .i_top(vertical_input[i*VERTICAL_BW+VERTICAL_BW-1:i*VERTICAL_BW])
-                        .i_left(horizontal_wires[i][j-1])
-                        .o_bot(vertical_wires[i][j])
+                        .clk(clk),
+                        .rst(rst),
+                        .i_mode(i_mode),
+                        .i_top({16'b0,vertical_input[i*HORIZONTAL_BW+HORIZONTAL_BW_BW-1:i*HORIZONTAL_BW]}),
+                        .i_left(horizontal_wires[i][j-1]),
+                        .o_bot(vertical_wires[i][j]),
                         .o_right(horizontal_wires[i][j])
                     );
                 end
 
                 if(i!=0 && j==0) begin //Left elements
                     PE pe_instance(
-                        .clk(clk)
-                        .rst(rst)
-                        .i_mode(i_mode)
-                        .i_top(vertical_wires[i-1][j])
-                        .i_left(horizontal_input[i*HORIZONTAL_BW+HORIZONTAL_BW-1:i*HORIZONTAL_BW])
-                        .o_bot(vertical_wires[i][j])
+                        .clk(clk),
+                        .rst(rst),
+                        .i_mode(i_mode),
+                        .i_top(vertical_wires[i-1][j]),
+                        .i_left(horizontal_input[i*HORIZONTAL_BW+HORIZONTAL_BW-1:i*HORIZONTAL_BW]),
+                        .o_bot(vertical_wires[i][j]),
                         .o_right(horizontal_wires[i][j])
                     );
                 end
 
                 if(i!=0 && j!=0) begin //Other elements
                     PE pe_instance(
-                        .clk(clk)
-                        .rst(rst)
-                        .i_mode(i_mode)
-                        .i_top(vertical_wires[i-1][j])
-                        .i_left(horizontal_wires[i][j-1])
-                        .o_bot(vertical_wires[i][j])
+                        .clk(clk),
+                        .rst(rst),
+                        .i_mode(i_mode),
+                        .i_top(vertical_wires[i-1][j]),
+                        .i_left(horizontal_wires[i][j-1]),
+                        .o_bot(vertical_wires[i][j]),
                         .o_right(horizontal_wires[i][j])
                     );
                 end
@@ -91,7 +91,7 @@ module MAC #(
     endgenerate
 
     for(k=0;k<ARR_SIZE;k=k+1) begin
-        accumulator_op[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW] = vertical_wires[ARR_SIZE-1][k]
+        accumulator_op[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW] = vertical_wires[ARR_SIZE-1][k];
     end
 
 endmodule
