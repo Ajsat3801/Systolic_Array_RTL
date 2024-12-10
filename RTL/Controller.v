@@ -23,9 +23,9 @@ reg [31:0] data;
 
 //Instruction Decode    
 always @(posedge clk) begin
-    opcode = instruction[63:59]; // 5-bit opcode
-    address = instruction[58:45]; // 16-bit address
-    data = instruction[44:13]; // 32-bit data
+    opcode = instruction[4:0]; // 5-bit opcode
+    address = instruction[20:5]; // 16-bit address
+    data = instruction[52:21]; // 32-bit data
 
     //Initialisation
     inp_buf_addr = 13'b0;
