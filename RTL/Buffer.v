@@ -1,3 +1,6 @@
+`timescale 1ns / 1ps
+
+
 module Buffer (
     input wire clk,            // Clock signal
     input wire rst,          // Reset signal
