@@ -1,3 +1,5 @@
+timescale 1ns / 1ps
+
 module Accumulator #(
     parameter ARR_SIZE=4,
     parameter VERTICAL_BW=32
@@ -20,7 +22,7 @@ module Accumulator #(
 
         for(genvar k = 0; k<ARR_SIZE; k=k+1) begin
             
-            adder accumulator(
+            bfp32_adder accumulator(
                 .clk(clk),
                 .rst(acc_reset||rst),
                 .A(accumulated_val[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW]),
@@ -37,7 +39,7 @@ module Accumulator #(
 
         for(genvar k = 0; k<ARR_SIZE; k++) begin
             
-            adder accumulator(
+            bfp32_adder accumulator(
                 .clk(clk),
                 .rst(acc_reset||rst),
                 .A(accumulator_op_intermediate[k]),
