@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module PE #(
 	parameter ADD_BW = 32, // note parameters are kinda set for this desgin due to fixed multipler & adder units
 	parameter MUL_BW = 16) (

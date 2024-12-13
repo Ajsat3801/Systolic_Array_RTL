@@ -1,3 +1,6 @@
+`timescale 1ns/1ps
+
+
 module MAC #(
     parameter ARR_SIZE = 4, // set to 128 during final synthesis 
     parameter VERTICAL_BW = 32,
@@ -90,6 +93,7 @@ module MAC #(
 
     endgenerate
 
+    genvar k;
     for(k=0;k<ARR_SIZE;k=k+1) begin
         accumulator_op[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW] = vertical_wires[ARR_SIZE-1][k];
     end

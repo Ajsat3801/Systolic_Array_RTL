@@ -38,14 +38,14 @@ module Buffer (
 
         else begin
 
-            if (state == 2'b01 && !full) begin
+            if (state == 2'b01) begin
                 fifo[write_ptr] <= data_in;           // Store input data
                 write_ptr <= (write_ptr + 1) % BUFFER_SIZE; // Increment write pointer
                 count <= count + 1;                  // Increment the count of elements
             end
 
         // Streaming logic (state = 10)
-            if (state == 2'b10 && !empty) begin
+            if (state == 2'b10) begin
                 // Stream two consecutive 32-bit elements as 64-bit output
                 data_out <= {fifo[read_ptr], fifo[(read_ptr + 1) % BUFFER_SIZE]}; 
                 read_ptr <= (read_ptr + 2) % BUFFER_SIZE; // Increment read pointer by 2

@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module instruction_buffer (
     input clk,
     input rst,

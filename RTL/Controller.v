@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module controller #(
     
 )(
@@ -9,7 +11,7 @@ module controller #(
     output reg [31:0] wt_buf_data,
     output reg [3:0] acc_to_op_buf_addr,
     output reg acc_result_to_op_buf,
-    output reg [3:0] acc_to_op_buf_addr,
+    output reg [3:0] out_buf_addr,
     output reg op_buffer_instr_for_sending_data,
     output reg instr_for_accum_to_reset,
     output reg [1:0] state_signal, //01 for write enable, 10 to start streaming data, 00 NOP
@@ -49,24 +51,24 @@ always @(posedge clk) begin
             //NOP
         end   
         5'b00001: begin // MAC
-            state_signal <= 2b'10; //Command to start streaming the inputs
+            state_signal <= 2'b10; //Command to start streaming the inputs
         end
         5'b00010: begin // Send weights
-            state_signal <= 2b'10; //Command to start streaming the weights
+            state_signal <= 2'b10; //Command to start streaming the weights
             i_mode <= 1'b1; //Signal to MAC to start accepting weights from the weight buffer
         end
         5'b00011: begin // Store Output
-            state_signal <= 2b'01; //Write enble
+            state_signal <= 2'b01; //Write enble
             acc_to_op_buf_addr <= address[3:0]; // Destination in output buffer
             acc_result_to_op_buf <= 1'b1; // Send accumulator result
         end
         5'b00100: begin // Receive inputs
-            state_signal <= 2b'01; //Write enble
+            state_signal <= 2'b01; //Write enble
             inp_buf_addr <= address; // Destination address in input buffer
             inp_buf_data <= data; // Data to be stored in input buffer
         end
         5'b00101: begin // Receive weights
-            state_signal <= 2b'01; //Write enble
+            state_signal <= 2'b01; //Write enble
             wt_buf_addr <= address; // Destination address in weight buffer
             wt_buf_data <= data; // Data to be stored in weight buffer
         end

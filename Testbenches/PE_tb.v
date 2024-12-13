@@ -72,6 +72,7 @@ initial begin
     end else begin
         $display("Test 2 Passed: Accumulate mode output correct.");
     end
+    
 
     // Test 3: Reset behavior
     rst = 0; // Apply reset
