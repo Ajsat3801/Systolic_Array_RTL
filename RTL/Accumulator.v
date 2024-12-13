@@ -14,6 +14,7 @@ module Accumulator #(
 );
 
     reg [31:0]accumulator_op;
+    reg [31:0]accumulator_op_intermediate[ARR_SIZE-1:0];
 
     generate
 
@@ -23,8 +24,8 @@ module Accumulator #(
                 .clk(clk),
                 .rst(acc_reset||rst),
                 .A(accumulated_val[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW]),
-                .B(horizontal_wires[ARR_SIZE-1][k]),
-                .O(accumulated_val[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW])
+                .B(accumulator_op_intermediate[k]),
+                .O(accumulator_op_intermediate[k])
             );
 
         end
@@ -39,7 +40,7 @@ module Accumulator #(
             adder accumulator(
                 .clk(clk),
                 .rst(acc_reset||rst),
-                .A(accumulated_val[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW]),
+                .A(accumulator_op_intermediate[k]),
                 .B(accumulator_op),
                 .O(accumulator_op)
             );
@@ -56,6 +57,9 @@ module Accumulator #(
 
         if((acc_reset == 1) || (rst == 1)) begin
             accumulator_op <= 32'b0;
+            for(integer i=0;i<ARR_SIZE;i=i+1) begin
+                accumulator_op_intermediate[i] = 32'b0;
+            end
         end
         else begin
             if(store_output == 1'b1) begin
