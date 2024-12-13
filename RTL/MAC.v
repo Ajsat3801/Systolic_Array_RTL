@@ -10,18 +10,18 @@ module MAC #(
     input clk,
     input i_mode,
     input rst,
-    input [HORIZONTAL_BW*ARR_SIZE-1:0] vertical_input,
-    input [HORIZONTAL_BW*ARR_SIZE-1:0] horizontal_input,
-    output reg [ARR_SIZE*VERTICAL_BW -1:0] accumulator_op
+    input [HORIZONTAL_BW * ARR_SIZE - 1 : 0] vertical_input,
+    input [HORIZONTAL_BW * ARR_SIZE - 1 : 0] horizontal_input,
+    output reg [ARR_SIZE * VERTICAL_BW - 1 : 0] MAC_OP
 );
 
-    wire [HORIZONTAL_BW*-1:0]horizontal_wires[ARR_SIZE-1:0][ARR_SIZE-1:0];
+    wire [HORIZONTAL_BW-1:0]horizontal_wires[ARR_SIZE-1:0][ARR_SIZE-1:0];
     wire [VERTICAL_BW-1:0]vertical_wires[ARR_SIZE-1:0][ARR_SIZE-1:0];
 
     generate
         
-        for (genvar i=0;i<ARR_SIZE;i=i+1) begin // generates rows of elements
-            for (genvar j=0;j<ARR_SIZE;j=j+1) begin // generate each row of elements
+        for (genvar i=0; i<ARR_SIZE; i=i+1) begin // generates rows of elements
+            for (genvar j=0; j<ARR_SIZE; j=j+1) begin // generate each row of elements
                 
                 // Types of elements
                 //  1) Corner Elements:
@@ -91,13 +91,9 @@ module MAC #(
 
         end
 
+        for(genvar k=0; k<ARR_SIZE; k=k+1) begin
+            assign MAC_OP[(k+1) * VERTICAL_BW - 1 : k * VERTICAL_BW] = vertical_wires[ARR_SIZE-1][k];
+        end
     endgenerate
-
-generate
-    genvar k;
-    for(k=0;k<ARR_SIZE;k=k+1) begin
-       assign accumulator_op[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW] = vertical_wires[ARR_SIZE-1][k];
-    end
-endgenerate
 
 endmodule

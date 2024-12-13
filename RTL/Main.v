@@ -59,7 +59,7 @@ MAC mac_instance(
     .rst(rst),
     .vertical_input(mac_vertical_input),
     .horizontal_input(mac_horizontal_input),
-    .accumulator_op(mac_to_accumulator)
+    .MAC_OP(mac_to_accumulator)
 );
 
 wire [31:0] acc_to_op_buf_data;
