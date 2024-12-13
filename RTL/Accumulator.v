@@ -172,7 +172,7 @@ module Accumulator #(
     output reg output_buffer_enable
 );
 
-    reg [31:0] accumulator_op;
+    reg [31:0] accumulator_op = 32'b0;
     wire [31:0] accumulator_op_intermediate_wire[ARR_SIZE - 1:0];
 
     generate

@@ -43,8 +43,8 @@ module MAC #(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
-                        .i_top({16'b0,vertical_input[i*HORIZONTAL_BW+HORIZONTAL_BW_BW-1:i*HORIZONTAL_BW]}),
-                        .i_left(horizontal_input[i*HORIZONTAL_BW+HORIZONTAL_BW-1:i*HORIZONTAL_BW]),
+                        .i_top({16'b0,vertical_input[ (j+1) * HORIZONTAL_BW - 1 : j * HORIZONTAL_BW]}),
+                        .i_left(horizontal_input[ (i+1) * HORIZONTAL_BW - 1 : i * HORIZONTAL_BW]),
                         .o_bot(vertical_wires[i][j]),
                         .o_right(horizontal_wires[i][j])
                     );
@@ -56,7 +56,7 @@ module MAC #(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
-                        .i_top({16'b0,vertical_input[i*HORIZONTAL_BW+HORIZONTAL_BW_BW-1:i*HORIZONTAL_BW]}),
+                        .i_top({16'b0,vertical_input[(j+1) * HORIZONTAL_BW - 1 : j * HORIZONTAL_BW]}),
                         .i_left(horizontal_wires[i][j-1]),
                         .o_bot(vertical_wires[i][j]),
                         .o_right(horizontal_wires[i][j])
@@ -69,7 +69,7 @@ module MAC #(
                         .rst(rst),
                         .i_mode(i_mode),
                         .i_top(vertical_wires[i-1][j]),
-                        .i_left(horizontal_input[i*HORIZONTAL_BW+HORIZONTAL_BW-1:i*HORIZONTAL_BW]),
+                        .i_left(horizontal_input[(i+1) * HORIZONTAL_BW - 1 : i * HORIZONTAL_BW]),
                         .o_bot(vertical_wires[i][j]),
                         .o_right(horizontal_wires[i][j])
                     );
