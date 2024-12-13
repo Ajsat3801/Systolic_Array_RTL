@@ -197,7 +197,7 @@ module Accumulator #(
             bfp32_adder accumulator_final(
                 .clk(clk),
                 .rst(acc_reset || rst),
-                .A(accumulator_op_intermediate_wire[k]),
+                .A(accumulator_op_intermediate[k]),
                 .B(accumulator_op),
                 .O(accumulator_op_wire) // Output to wire
             );
@@ -220,10 +220,11 @@ module Accumulator #(
             end
 
             // Update procedural registers with structural results
-            accumulator_op <= accumulator_op_wire;
+            // accumulator_op <= accumulator_op_wire;
             for (integer i = 0; i < ARR_SIZE; i = i + 1) begin
-                accumulator_op_intermediate[i] <= accumulator_op_intermediate_wire[i];
+                accumulator_op_intermediate[i] = accumulator_op_intermediate_wire[i];
             end
+            accumulator_op = accumulator_op_wire;
         end
     end
 
