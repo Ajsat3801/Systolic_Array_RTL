@@ -173,34 +173,40 @@ module Accumulator #(
 );
 
     reg [31:0] accumulator_op;
-    reg [31:0] accumulator_op_intermediate[ARR_SIZE - 1:0];
-
-    // Wires for structural logic
-    wire [31:0] accumulator_op_wire;
     wire [31:0] accumulator_op_intermediate_wire[ARR_SIZE - 1:0];
-
-    // Structural generate block
-    generate
-        for (genvar k = 0; k < ARR_SIZE; k = k + 1) begin : gen_accumulation
-            bfp32_adder accumulator_intermediate(
-                .clk(clk),
-                .rst(acc_reset || rst),
-                .A(accumulated_val[k * VERTICAL_BW + VERTICAL_BW - 1:k * VERTICAL_BW]),
-                .B(accumulator_op_intermediate[k]),
-                .O(accumulator_op_intermediate_wire[k]) // Output to wire
-            );
-        end
-    endgenerate
 
     generate
         for (genvar k = 0; k < ARR_SIZE; k = k + 1) begin : gen_final_accumulation
-            bfp32_adder accumulator_final(
-                .clk(clk),
-                .rst(acc_reset || rst),
-                .A(accumulator_op_intermediate[k]),
-                .B(accumulator_op),
-                .O(accumulator_op_wire) // Output to wire
-            );
+
+            if (k==0) begin // Left-most element
+                bfp32_adder accumulator_intermediate( 
+                    .clk(clk),
+                    .rst(acc_reset || rst),
+                    .A(accumulated_val[(k+1) * VERTICAL_BW - 1 : k * VERTICAL_BW]),
+                    .B(accumulated_val[(k+2) * VERTICAL_BW - 1 : (k+1) * VERTICAL_BW]),
+                    .O(accumulator_op_intermediate_wire[k]) 
+                );
+            end
+
+            else if(k==ARR_SIZE-1) begin // Right-most element
+                bfp32_adder accumulator_intermediate( 
+                    .clk(clk),
+                    .rst(acc_reset || rst),
+                    .A(accumulator_op_intermediate_wire[k-1]),
+                    .B(accumulator_op),
+                    .O(accumulator_op_intermediate_wire[k]) 
+                );
+            end
+
+            else begin // intermediate elements
+                bfp32_adder accumulator_intermediate( 
+                    .clk(clk),
+                    .rst(acc_reset || rst),
+                    .A(accumulator_op_intermediate_wire[k-1]),
+                    .B(accumulated_val[(k+2) * VERTICAL_BW - 1 : (k+1) * VERTICAL_BW]),
+                    .O(accumulator_op_intermediate_wire[k]) 
+                );
+            end
         end
     endgenerate
 
@@ -208,9 +214,7 @@ module Accumulator #(
     always @(posedge clk or posedge rst) begin
         if (rst || acc_reset) begin
             accumulator_op <= 32'b0;
-            for (integer i = 0; i < ARR_SIZE; i = i + 1) begin
-                accumulator_op_intermediate[i] <= 32'b0;
-            end
+
         end else begin
             // Update outputs
             if (store_output == 1'b1) begin
@@ -220,11 +224,7 @@ module Accumulator #(
             end
 
             // Update procedural registers with structural results
-            // accumulator_op <= accumulator_op_wire;
-            for (integer i = 0; i < ARR_SIZE; i = i + 1) begin
-                accumulator_op_intermediate[i] = accumulator_op_intermediate_wire[i];
-            end
-            accumulator_op = accumulator_op_wire;
+            accumulator_op <= accumulator_op_intermediate_wire[ARR_SIZE]-1;
         end
     end
 
