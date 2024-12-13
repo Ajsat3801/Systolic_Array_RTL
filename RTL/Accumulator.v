@@ -100,7 +100,7 @@ module Accumulator #(
     wire [31:0] accumulator_op_wire;
     wire [31:0] accumulator_op_intermediate_wire[ARR_SIZE-1:0];
     
-    for (k = 0; k < ARR_SIZE - 1; k = k + 1)begin
+    for (k = 0; k < ARR_SIZE - 1; k = k + 1) begin
         accumulator_op_intermediate[k] = 0;
     end
 
