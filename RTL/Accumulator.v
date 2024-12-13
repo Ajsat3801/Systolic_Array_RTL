@@ -93,12 +93,16 @@ module Accumulator #(
     output reg output_buffer_enable
 );
 
-    reg [31:0] accumulator_op;
+    reg [31:0] accumulator_op = 32'b0;
     reg [31:0] accumulator_op_intermediate[ARR_SIZE-1:0];
 
     // Wires for structural logic
     wire [31:0] accumulator_op_wire;
     wire [31:0] accumulator_op_intermediate_wire[ARR_SIZE-1:0];
+    
+    for (k = 0; k < ARR_SIZE - 1; k = k + 1)begin
+        accumulator_op_intermediate[k] = 0;
+    end
 
     // Structural generate block
     generate
