@@ -53,20 +53,21 @@ module Accumulator_tb;
 
         // Test 1: Apply values to accumulated_val and observe output
         accumulated_val = {32'd10, 32'd20, 32'd30, 32'd40};
-        acc_reset = 1;
+      //  acc_reset = 1;
         #10;
-        acc_reset = 0;
+       // acc_reset = 0;
+        accumulated_val = {32'd5, 32'd15, 32'd25, 32'd35};
 
         // Test 2: Enable store_output and check output values
         store_output = 1;
         op_buffer_address = 4'b1010;
         #10;
-        store_output = 0;
+       // store_output = 0;
 
         // Test 3: Reset the module and ensure accumulator_op is cleared
-        rst = 1;
+      //  rst = 1;
         #10;
-        rst = 0;
+      //  rst = 0;
 
         // Test 4: Accumulate new values
         accumulated_val = {32'd5, 32'd15, 32'd25, 32'd35};
