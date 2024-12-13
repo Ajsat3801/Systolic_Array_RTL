@@ -93,9 +93,11 @@ module MAC #(
 
     endgenerate
 
+generate
     genvar k;
     for(k=0;k<ARR_SIZE;k=k+1) begin
-        accumulator_op[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW] = vertical_wires[ARR_SIZE-1][k];
+       assign accumulator_op[k*VERTICAL_BW+VERTICAL_BW-1:k*VERTICAL_BW] = vertical_wires[ARR_SIZE-1][k];
     end
+endgenerate
 
 endmodule
