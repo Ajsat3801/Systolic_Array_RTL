@@ -19,11 +19,11 @@ add_pdn_stripe -grid {grid} -layer {met3} -width {1.20} -pitch {20.0} -offset {0
 # Metal4 Stripes
 add_pdn_stripe -grid {grid} -layer {met4} -width {0.96} -pitch {20.0} -offset {0.5} -extend_to_core_ring
 
-# Metal5 Stripes (Updated width to meet the minimum requirement)
-add_pdn_stripe -grid {grid} -layer {met5} -width {1.60} -pitch {25.0} -offset {0.5} -extend_to_core_ring
+# Metal5 Stripes (Increased spacing to 2.0 µm)
+add_pdn_stripe -grid {grid} -layer {met5} -width {1.60} -pitch {30.0} -offset {0.5} -extend_to_core_ring
 
-# Adding Power Rings
-add_pdn_ring -grid {grid} -layers {met4 met5} -widths {1.6 1.6} -spacings {1.0 1.0} \
+# Adding Power Rings (Increased spacing for met5)
+add_pdn_ring -grid {grid} -layers {met4 met5} -widths {1.6 1.6} -spacings {2.0 2.0} \
     -core_offsets {1.0 1.0 1.0 1.0} -connect_to_pads
 
 # Layer Connections
