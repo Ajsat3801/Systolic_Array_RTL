@@ -8,31 +8,32 @@ global_connect
 set_voltage_domain -name {CORE} -power {VDD} -ground {VSS}
 
 # Standard cell power grid
-define_pdn_grid -name {grid} -voltage_domains {CORE} -followpins
+define_pdn_grid -name {grid} -voltage_domains {CORE}
 
-# Metal1 Stripes
-add_pdn_stripe -grid {grid} -layer {met1} -width {0.48} -pitch {5.44} -followpins
+# Add power stripes for Metal1
+add_pdn_stripe -grid {grid} -layer {met1} -width {0.49} -pitch {5.44}
 
-# Metal2 Stripes
-add_pdn_stripe -grid {grid} -layer {met2} -width {0.96} -pitch {10.88} -connect_to_pads -starts_with POWER
+# Add power stripes for Metal3
+add_pdn_stripe -grid {grid} -layer {met3} -width {1.60} -pitch {56.0} -offset {2}
 
-# Metal3 and Metal4 Connections
-add_pdn_stripe -grid {grid} -layer {met3} -width {1.60} -pitch {20.0} -extend_to_core_ring
+# Add power stripes for Metal4
+add_pdn_stripe -grid {grid} -layer {met4} -width {0.96} -pitch {56.0} -offset {2} -extend_to_core_ring
+
+# Add power stripes for Metal5
+add_pdn_stripe -grid {grid} -layer {met5} -width {1.60} -pitch {56.0} -offset {2} -extend_to_core_ring
+
+# Add connections between layers
+add_pdn_connect -grid {grid} -layers {met4 met5}
 add_pdn_connect -grid {grid} -layers {met3 met4}
 
-# Add power rings around the core
-add_pdn_ring -grid {grid} -layers {met4 met5} -widths {3 3} -spacings {1.6 1.6} -connect_to_pads
+# Add power rings
+add_pdn_ring -grid {grid} -layers {met4 met5} -widths {3 3} -spacings {1.6 1.6} \
+    -pad_offsets {10 10} -connect_to_pads
 
-# I/O and Macro Grids
-define_pdn_grid -name {pads} -voltage_domains {CORE} -macro \
-    -halo {0.0 0.0 0.0 0.0} \
-    -cells {sky130_fd_io__gpiov2_pad_wrapped \
-            sky130_fd_io__vccd_hvc_pad \
-            sky130_fd_io__vssd_lvc_pad} \
-    -grid_over_boundary
+# Macro grids
+define_pdn_grid -name {CORE_macro_grid} -voltage_domains {CORE} -macro \
+    -orient {R0 R180 MX MY} -halo {0.0 0.0 0.0 0.0} -default -grid_over_boundary
 
-# Check connectivity
-pdngen check_connectivity -vdd_net {VDD} -gnd_net {VSS}
-
-# Write the updated DEF file
-write_def ./design_with_pdn.def
+add_pdn_stripe -grid {CORE_macro_grid} -layer {met4} -width {0.93} -pitch {20.0}
+add_pdn_connect -grid {CORE_macro_grid} -layers {met3 met4}
+add_pdn_connect -grid {CORE_macro_grid} -layers {met4 met5}
