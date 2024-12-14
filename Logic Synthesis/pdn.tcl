@@ -43,6 +43,7 @@ add_pdn_stripe -grid {CORE_macro_grid} -layer {met4} -width {1.20} -pitch {20.0}
 add_pdn_connect -grid {CORE_macro_grid} -layers {met3 met4}
 add_pdn_connect -grid {CORE_macro_grid} -layers {met4 met5}
 
-# Validate and write the final power grid DEF file
-pdngen check_connectivity -vdd_net {VDD} -gnd_net {VSS}
+# Validate connectivity and write the final power grid
+pdngen validate_connectivity -net VDD -grid {grid}
+pdngen validate_connectivity -net VSS -grid {grid}
 write_def ./design_with_pdn.def
