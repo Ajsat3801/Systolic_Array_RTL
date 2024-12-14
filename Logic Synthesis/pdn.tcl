@@ -2,10 +2,6 @@
 add_global_connection -net {VDD} -inst_pattern {.*} -pin_pattern {VPWR} -power
 add_global_connection -net {VSS} -inst_pattern {.*} -pin_pattern {VGND} -ground
 
-# Explicitly connect tap cells to the global nets
-add_global_connection -net {VDD} -inst_pattern {TAP_TAPCELL_*} -pin_pattern {VPWR} -power
-add_global_connection -net {VSS} -inst_pattern {TAP_TAPCELL_*} -pin_pattern {VGND} -ground
-
 global_connect
 
 # Define voltage domains
@@ -26,9 +22,9 @@ add_pdn_stripe -grid {grid} -layer {met4} -width {0.96} -pitch {20.0} -offset {2
 # Metal5 Stripes
 add_pdn_stripe -grid {grid} -layer {met5} -width {1.60} -pitch {25.0} -offset {2} -extend_to_core_ring
 
-# Adding Power Rings (with core offsets)
-add_pdn_ring -grid {grid} -layers {met4 met5} -widths {3 3} -spacings {1.6 1.6} \
-    -core_offsets {5 5 5 5} -connect_to_pads
+# Adjusted Power Rings (with smaller offsets to fit within the die)
+add_pdn_ring -grid {grid} -layers {met4 met5} -widths {2 2} -spacings {1.6 1.6} \
+    -core_offsets {2 2 2 2} -connect_to_pads
 
 # Macro grids
 define_pdn_grid -name {CORE_macro_grid} -voltage_domains {CORE} -macro \
