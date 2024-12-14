@@ -1,6 +1,10 @@
 # Global Connections
-add_global_connection -net {VDD} -inst_pattern {.*} -pin_pattern {VDD} -power
-add_global_connection -net {VSS} -inst_pattern {.*} -pin_pattern {VSS} -ground
+add_global_connection -net {VDD} -inst_pattern {.*} -pin_pattern {VPWR} -power
+add_global_connection -net {VSS} -inst_pattern {.*} -pin_pattern {VGND} -ground
+
+# Explicitly connect tap cells to the global nets
+add_global_connection -net {VDD} -inst_pattern {TAP_TAPCELL_*} -pin_pattern {VPWR} -power
+add_global_connection -net {VSS} -inst_pattern {TAP_TAPCELL_*} -pin_pattern {VGND} -ground
 
 global_connect
 
