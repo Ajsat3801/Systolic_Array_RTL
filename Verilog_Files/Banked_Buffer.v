@@ -7,7 +7,7 @@ module BankedBuffer #(
     input wire clk,            // Clock signal
     input wire rst,            // Reset signal
     input wire [31:0] data_in, // 32-bit input data
-    input wire [7:0] addr,    // 14-bit address for 2^14 elements
+    input wire [6:0] addr,    // 14-bit address for 2^14 elements
     input wire [1:0] state,    // Two-bit state: 00 = No operation, 01 = Store, 10 = Stream
     output reg [63:0] data_out // 64-bit output data (2 concatenated 32-bit elements)
 );

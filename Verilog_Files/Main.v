@@ -11,9 +11,9 @@ module SystolicArray #(
 
 wire [63:0] instr_buffer_to_controller;
 
-wire [13:0] controller_to_inp_buf_addr;
+wire [6:0] controller_to_inp_buf_addr;
 wire [31:0] controller_to_inp_buf_data;
-wire [13:0] controller_to_wt_buf_addr;
+wire [6:0] controller_to_wt_buf_addr;
 wire [31:0] controller_to_wt_buf_data;
 wire [3:0] controller_to_acc_op_addr;
 wire controller_to_acc_send_op;
@@ -92,7 +92,7 @@ Accumulator Accumulator_instance(
     .output_buffer_enable(acc_to_op_buf_enable)
 );
 
-Buffer weight_buffer_instance (
+BankedBuffer weight_buffer_instance (
     .clk(clk),
     .rst(rst),
     .data_in(controller_to_wt_buf_data),
@@ -101,7 +101,7 @@ Buffer weight_buffer_instance (
     .data_out(mac_vertical_input)
 );
 
-Buffer input_buffer_instance (
+BankedBuffer input_buffer_instance (
     .clk(clk),
     .rst(rst),
     .data_in(controller_to_inp_buf_data),
