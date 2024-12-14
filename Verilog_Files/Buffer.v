@@ -11,7 +11,7 @@ module Buffer (
 );
 
     // Define buffer size for 2^14 32-bit words
-    parameter BUFFER_SIZE = 16384;
+    parameter BUFFER_SIZE = 128;
     reg [31:0] fifo [0:BUFFER_SIZE-1]; // FIFO memory
     reg [13:0] write_ptr = 0;          // Write pointer
     reg [13:0] read_ptr = 0;           // Read pointer
