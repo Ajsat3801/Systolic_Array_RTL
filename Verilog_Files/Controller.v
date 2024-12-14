@@ -5,9 +5,9 @@ module controller #(
 )(
     input clk,
     input [63:0] instruction,
-    output reg [13:0] inp_buf_addr,
+    output reg [6:0] inp_buf_addr,
     output reg [31:0] inp_buf_data,
-    output reg [13:0] wt_buf_addr,
+    output reg [6:0] wt_buf_addr,
     output reg [31:0] wt_buf_data,
     output reg [3:0] acc_to_op_buf_addr,
     output reg acc_result_to_op_buf,
@@ -30,9 +30,9 @@ always @(posedge clk) begin
     data = instruction[52:21]; // 32-bit data
 
     //Initialisation
-    inp_buf_addr = 13'b0;
+    inp_buf_addr = 7'b0;
     inp_buf_data = 32'b0;
-    wt_buf_addr = 13'b0;
+    wt_buf_addr = 7'b0;
     wt_buf_data = 32'b0;
     acc_to_op_buf_addr = 4'b0;
     acc_result_to_op_buf = 1'b0;
@@ -64,12 +64,12 @@ always @(posedge clk) begin
         end
         5'b00100: begin // Receive inputs
             state_signal <= 2'b01; //Write enble
-            inp_buf_addr <= address; // Destination address in input buffer
+            inp_buf_addr <= address[6:0]; // Destination address in input buffer
             inp_buf_data <= data; // Data to be stored in input buffer
         end
         5'b00101: begin // Receive weights
             state_signal <= 2'b01; //Write enble
-            wt_buf_addr <= address; // Destination address in weight buffer
+            wt_buf_addr <= address[6:0]; // Destination address in weight buffer
             wt_buf_data <= data; // Data to be stored in weight buffer
         end
         5'b00110: begin // Transmit output
