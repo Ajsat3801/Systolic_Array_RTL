@@ -13,17 +13,17 @@ define_pdn_grid -name {grid} -voltage_domains {CORE}
 # Adjusting Metal1 Stripes
 add_pdn_stripe -grid {grid} -layer {met1} -width {0.49} -pitch {5.44}
 
-# Adjusting Metal3 Stripes (reduced width and pitch to fit the available area)
-add_pdn_stripe -grid {grid} -layer {met3} -width {1.20} -pitch {15.0} -offset {2}
+# Adjusting Metal3 Stripes
+add_pdn_stripe -grid {grid} -layer {met3} -width {1.20} -pitch {20.0} -offset {2}
 
-# Adjusting Metal4 Stripes (to align with the updated pitch)
-add_pdn_stripe -grid {grid} -layer {met4} -width {0.96} -pitch {15.0} -offset {2} -extend_to_core_ring
+# Adjusting Metal4 Stripes
+add_pdn_stripe -grid {grid} -layer {met4} -width {0.96} -pitch {20.0} -offset {2} -extend_to_core_ring
 
-# Adjusting Metal5 Stripes
-add_pdn_stripe -grid {grid} -layer {met5} -width {1.20} -pitch {15.0} -offset {2} -extend_to_core_ring
+# Adjusting Metal5 Stripes (width increased to meet minimum requirement)
+add_pdn_stripe -grid {grid} -layer {met5} -width {1.60} -pitch {25.0} -offset {2} -extend_to_core_ring
 
 # Adding Power Rings
-add_pdn_ring -grid {grid} -layers {met4 met5} -widths {2 2} -spacings {1.6 1.6} -connect_to_pads
+add_pdn_ring -grid {grid} -layers {met4 met5} -widths {3 3} -spacings {1.6 1.6} -connect_to_pads
 
 # Macro grids
 define_pdn_grid -name {CORE_macro_grid} -voltage_domains {CORE} -macro \
