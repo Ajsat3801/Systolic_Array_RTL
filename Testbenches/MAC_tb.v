@@ -26,7 +26,7 @@ module MAC_tb;
         .rst(rst),
         .vertical_input(vertical_input),
         .horizontal_input(horizontal_input),
-        .accumulator_op(accumulator_op)
+        .MAC_OP(accumulator_op)
     );
 
     // Clock generation
