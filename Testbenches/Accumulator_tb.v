@@ -66,7 +66,7 @@ module Accumulator_tb;
 
         // Test 3: Reset the module and ensure accumulator_op is cleared
       //  rst = 1;
-        #10;
+       #10;
       //  rst = 0;
 
         // Test 4: Accumulate new values

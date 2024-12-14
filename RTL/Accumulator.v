@@ -212,6 +212,7 @@ module Accumulator #(
 
     // Procedural logic with reset
     always @(posedge clk or posedge rst) begin
+        output_data = 32'b0;
         if (rst || acc_reset) begin
             accumulator_op <= 32'b0;
 
@@ -224,7 +225,7 @@ module Accumulator #(
             end
 
             // Update procedural registers with structural results
-            accumulator_op <= accumulator_op_intermediate_wire[ARR_SIZE]-1;
+            accumulator_op <= accumulator_op_intermediate_wire[ARR_SIZE-1];
         end
     end
 
