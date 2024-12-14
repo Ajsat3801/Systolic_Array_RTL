@@ -41,7 +41,7 @@ module Buffer (
         end
     end
 
-    always @(posedge clk) begin
+    always @(posedge rst) begin
 
         fifo[0] <= 32'b0;
         write_ptr <= 0;
