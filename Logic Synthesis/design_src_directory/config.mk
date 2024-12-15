@@ -12,18 +12,8 @@ export SKY130_IO_VERSION ?= v0.2.0
 export OPENRAMS_DIR = ./platforms/sky130ram
 export IO_DIR       = ./platforms/sky130io
 
-export VERILOG_FILES = $(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/Main.v \
-			$(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/Accumulator.v \
-			$(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/bfp16_mult.v \
-			$(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/bfp32_adder.v \
-			$(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/Buffer.v \
-			$(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/Controller.v \
-			$(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/Instruction_buffer.v \
-			$(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/MAC.v \
-			$(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/Output_Buffer.v \
-			$(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/Banked_Buffer.v \
-			$(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/Individual_Buffer.v \
-			$(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/PE.v \
+export VERILOG_FILES = $(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/SystolicArray \
+
 			$(DESIGN_HOME)/$(PLATFORM)/coyote_tc/macros.v \
                         $(IO_DIR)/verilog/sky130_io.blackbox.v
 

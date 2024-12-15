@@ -5,7 +5,7 @@ module bfp16_mult(clk, rst, A, B, O);
   input clk;
   input rst;
   input [15:0] A, B;
-  output reg [15:0] O;
+  output [15:0] O;
 
   wire a_sign;
   wire b_sign;

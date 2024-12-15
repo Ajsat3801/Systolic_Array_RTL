@@ -19,7 +19,8 @@ module Accumulator #(
     wire [31:0] accumulator_op_intermediate_wire[ARR_SIZE - 1:0];
 
     generate
-        for (genvar k = 0; k < ARR_SIZE; k = k + 1) begin : gen_final_accumulation
+        genvar k;
+        for (k = 0; k < ARR_SIZE; k = k + 1) begin : gen_final_accumulation
 
             if (k==0) begin // Left-most element
                 bfp32_adder accumulator_intermediate( 

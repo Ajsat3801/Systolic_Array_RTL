@@ -19,9 +19,11 @@ module MAC #(
     wire [VERTICAL_BW-1:0]vertical_wires[ARR_SIZE-1:0][ARR_SIZE-1:0];
 
     generate
-        
-        for (genvar i=0; i<ARR_SIZE; i=i+1) begin // generates rows of elements
-            for (genvar j=0; j<ARR_SIZE; j=j+1) begin // generate each row of elements
+        genvar i;
+        genvar j;
+        genvar k;
+        for (i=0; i<ARR_SIZE; i=i+1) begin // generates rows of elements
+            for (j=0; j<ARR_SIZE; j=j+1) begin // generate each row of elements
                 
                 // Types of elements
                 //  1) Corner Elements:
@@ -91,7 +93,7 @@ module MAC #(
 
         end
 
-        for(genvar k=0; k<ARR_SIZE; k=k+1) begin
+        for(k=0; k<ARR_SIZE; k=k+1) begin
             assign MAC_OP[(k+1) * VERTICAL_BW - 1 : k * VERTICAL_BW] = vertical_wires[ARR_SIZE-1][k];
         end
     endgenerate
