@@ -17,11 +17,13 @@ module MAC #(
 
     wire [HORIZONTAL_BW-1:0]horizontal_wires[ARR_SIZE-1:0][ARR_SIZE-1:0];
     wire [VERTICAL_BW-1:0]vertical_wires[ARR_SIZE-1:0][ARR_SIZE-1:0];
+    wire [ARR_SIZE * VERTICAL_BW - 1 : 0] op_wire;
 
     generate
-        
-        for (genvar i=0; i<ARR_SIZE; i=i+1) begin // generates rows of elements
-            for (genvar j=0; j<ARR_SIZE; j=j+1) begin // generate each row of elements
+        genvar i;
+        genvar j;
+        for (i=0; i<ARR_SIZE; i=i+1) begin // generates rows of elements
+            for (j=0; j<ARR_SIZE; j=j+1) begin // generate each row of elements
                 
                 // Types of elements
                 //  1) Corner Elements:
@@ -39,7 +41,7 @@ module MAC #(
 
 
                 if(i==0 && j==0) begin //top-left corner element
-                    PE pe_instance(
+                    PE pe_instance_tlcorner(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
@@ -51,8 +53,8 @@ module MAC #(
 
                 end
 
-                if(i==0 && j!=0) begin //Top elements
-                    PE pe_instance(
+                else if(i==0 && j!=0) begin //Top elements
+                    PE pe_instance_top(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
@@ -63,8 +65,8 @@ module MAC #(
                     );
                 end
 
-                if(i!=0 && j==0) begin //Left elements
-                    PE pe_instance(
+                else if(i!=0 && j==0) begin //Left elements
+                    PE pe_instance_left(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
@@ -75,8 +77,32 @@ module MAC #(
                     );
                 end
 
-                if(i!=0 && j!=0) begin //Other elements
-                    PE pe_instance(
+                else if (i==ARR_SIZE-1 && j==0) begin // Bottom-Left element
+                    PE pe_instance_blcorner(
+                        .clk(clk),
+                        .rst(rst),
+                        .i_mode(i_mode),
+                        .i_top(vertical_wires[i-1][j]),
+                        .i_left(horizontal_input[(i+1) * HORIZONTAL_BW - 1 : i * HORIZONTAL_BW]),
+                        .o_bot(op_wire[(j+1)*HORIZONTAL_BW:j*HORIZONTAL_BW]),
+                        .o_right(horizontal_wires[i][j])
+                    );
+                end
+
+                else if (i==ARR_SIZE-1 && j!=0) begin // Bottom Row elements element
+                    PE pe_instance_bottom(
+                        .clk(clk),
+                        .rst(rst),
+                        .i_mode(i_mode),
+                        .i_top(vertical_wires[i-1][j]),
+                        .i_left(horizontal_wires[i][j-1]),
+                        .o_bot(op_wire[(j+1)*HORIZONTAL_BW:j*HORIZONTAL_BW]),
+                        .o_right(horizontal_wires[i][j])
+                    );
+                end
+
+                else if(i!=0 && j!=0) begin //Other elements
+                    PE pe_instance_middle(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
@@ -91,9 +117,10 @@ module MAC #(
 
         end
 
-        for(genvar k=0; k<ARR_SIZE; k=k+1) begin
-            assign MAC_OP[(k+1) * VERTICAL_BW - 1 : k * VERTICAL_BW] = vertical_wires[ARR_SIZE-1][k];
-        end
     endgenerate
+
+    always @(posedge clk) begin
+        MAC_OP <= op_wire;
+    end
 
 endmodule

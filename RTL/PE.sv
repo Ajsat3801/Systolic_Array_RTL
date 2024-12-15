@@ -55,15 +55,16 @@ module PE #(
 	assign w_out = i_mode ? w_adder_out: {16'b0, i_top[MUL_BW-1:0]};
 	
 	// flop outputs
-	always @ (posedge clk or posedge rst) begin
-		if (rst == 1'b1) begin
-			o_bot <= 'd0;
-			o_right <= 'd0;
-		end else begin
-			o_bot <= w_out;
-			o_right <= i_left;
-		end
+	always @ (posedge clk) begin
+        o_bot <= w_out;
+        o_right <= i_left;
 	end
+
+    always @ (posedge rst) begin
+        o_bot <= 'd0;
+        o_right <= 'd0;
+	end
+
 	
 
 endmodule

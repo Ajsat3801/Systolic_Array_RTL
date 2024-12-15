@@ -17,19 +17,17 @@ module Output_buffer #(
 
     always @(posedge clk) begin
         
-        if(rst==1) begin
-            for(integer i=0;i<16;i=i+1) begin
-                buf_data[i] <= 32'b0;
-            end
+        if(op_buffer_instr_for_sending_data==1'b1) begin
+            res_to_external <= buf_data[op_buf_addr_for_external_comm];
         end
-        else begin
-
-            if(op_buffer_instr_for_sending_data==1'b1) begin
-                res_to_external <= buf_data[op_buf_addr_for_external_comm];
-            end
-            if(op_buffer_instr_for_storing_data==1'b1) begin
-                buf_data[op_buf_addr_for_store] <= data;
-            end
+        if(op_buffer_instr_for_storing_data==1'b1) begin
+            buf_data[op_buf_addr_for_store] <= data;
+        end
+    end
+    always @(posedge clk) begin
+        
+        for(integer i=0;i<16;i=i+1) begin
+            buf_data[i] <= 32'b0;
         end
     end
 

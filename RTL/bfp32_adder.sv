@@ -1,13 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////
-// FP32 Adder 
-
-// https://github.com/danshanley/FPU/blob/master/fpu.v
-
-// Format: 1-bit signed, 8-bit exponents, 23-bit fractions
-
-// NOTE: MORE VERIFICATION NEEDED
-/////////////////////////////////////////////////////////////
 
 module bfp32_adder(clk, rst, A, B, O);
 

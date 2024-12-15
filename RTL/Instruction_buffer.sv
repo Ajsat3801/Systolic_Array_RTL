@@ -38,24 +38,22 @@ module instruction_buffer (
             count <= count + 1;             // Increment instruction count
         end
     end
+    
     always @(posedge clk) begin
         
-        if(rst==1)begin
-            head = 0;
-            tail = 0;
-            queue[0] = 64'b0;
-        end
-        
-        
-        else begin
-            if (count > 0) begin // Dequeue - Send instruction to the controller
-                instr_to_controller <= queue[head]; // Send instruction to controller
-                head <= (head + 1) % QUEUE_DEPTH;   // Increment head pointer (refer comment for tail)
-                count <= count - 1;               // Decrement instruction count
-            end
-        end
-
-        
+        if (count > 0) begin // Dequeue - Send instruction to the controller
+            instr_to_controller <= queue[head]; // Send instruction to controller
+            head <= (head + 1) % QUEUE_DEPTH;   // Increment head pointer (refer comment for tail)
+            count <= count - 1;               // Decrement instruction count
+        end   
     end
+
+    always @(posedge rst) begin
+        
+        head = 0;
+        tail = 0;
+        queue[0] = 64'b0;
+    end
+
 
 endmodule
