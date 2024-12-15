@@ -1,0 +1,12 @@
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/Accumulator.v
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/Banked_Buffer.v
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/bfp16_mult.v
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/bfp32_adder.v
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/Buffer.v
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/Controller.v
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/Individual_Buffer.v
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/Instruction_buffer.v
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/MAC.v
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/Main.v
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/Output_Buffer.v
+./OpenROAD-flow-scripts/flow/designs/src/SystolicArray/PE.v
