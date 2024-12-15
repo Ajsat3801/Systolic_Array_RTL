@@ -43,11 +43,7 @@ module PE (
 	);
 	assign w_out = (i_mode ? w_adder_out : {16'b0000000000000000, i_top[MUL_BW - 1:0]});
 	always @(posedge clk) begin
-		o_bot <= w_out;
-		o_right <= i_left;
-	end
-	always @(posedge rst) begin
-		o_bot <= 'd0;
-		o_right <= 'd0;
+        o_bot <= (rst==1) ? 32'b0 : w_out;
+        o_right <= (rst==1) ? 32'b0 : i_left;
 	end
 endmodule

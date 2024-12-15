@@ -24,21 +24,21 @@ module individual_buffer (
 		individual_output = 16'b0000000000000000;
 	end
 	always @(posedge clk)
+        if (rst == 1'b1) begin
+            head = 0;
+            tail = 0;
+            queue[0] = 16'b0000000000000000;
+        end
 		if (state == 2'b01) begin
-			queue[tail] <= individual_input;
-			tail <= (tail + 1) % QUEUE_DEPTH;
-			count <= count + 1;
+			queue[tail] = individual_input;
+			tail = (tail + 1) % QUEUE_DEPTH;
+			count = count + 1;
 		end
 		else if (state == 2'b10) begin
-			individual_output <= queue[head];
-			head <= (head + 1) % QUEUE_DEPTH;
-			count <= count - 1;
+			individual_output = queue[head];
+			head = (head + 1) % QUEUE_DEPTH;
+			count = count - 1;
 		end
 		else if (state == 2'b00)
-			individual_output <= 16'b0000000000000000;
-	always @(posedge rst) begin
-		head = 0;
-		tail = 0;
-		queue[0] = 16'b0000000000000000;
-	end
+			individual_output = 16'b0000000000000000;
 endmodule

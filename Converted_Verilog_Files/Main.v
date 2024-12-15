@@ -102,11 +102,7 @@ module SystolicArray (
 		.data_out(mac_horizontal_input)
 	);
 	always @(posedge clk) begin
-		accelerator_output <= op_buf_output;
-		buffer_full <= buffer_full_wire;
-	end
-	always @(posedge rst) begin
-		accelerator_output <= 32'b00000000000000000000000000000000;
-		buffer_full <= 1'b0;
+        accelerator_output <= (rst==1) ? 32'b00000000000000000000000000000000 : op_buf_output;
+        buffer_full <= (rst==1) ? 1'b0 : buffer_full_wire;
 	end
 endmodule

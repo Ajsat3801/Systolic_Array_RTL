@@ -34,14 +34,16 @@ module instruction_buffer (
 		end
 	end
 	always @(posedge clk)
-		if (count > 0) begin
-			instr_to_controller <= queue[head];
-			head <= (head + 1) % QUEUE_DEPTH;
-			count <= count - 1;
-		end
-	always @(posedge rst) begin
-		head = 0;
-		tail = 0;
-		queue[0] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
-	end
+        if (rst == 1'b1) begin
+            head = 0;
+		    tail = 0;
+		    queue[0] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
+        end
+		else begin
+            if (count > 0) begin
+                instr_to_controller = queue[head];
+                head = (head + 1) % QUEUE_DEPTH;
+                count = count - 1;
+		    end
+        end
 endmodule

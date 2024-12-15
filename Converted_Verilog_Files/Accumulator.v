@@ -56,16 +56,9 @@ module Accumulator (
 		end
 	endgenerate
 	always @(posedge clk) begin
-		output_data = 32'b00000000000000000000000000000000;
-		if (store_output == 1'b1) begin
-			output_data <= accumulator_op;
-			output_buffer_addr <= op_buffer_address;
-			output_buffer_enable <= store_output;
-			accumulator_op <= accumulator_op_intermediate_wire[ARR_SIZE - 1];
-		end
-	end
-	always @(posedge rst) begin
-		output_data = 32'b00000000000000000000000000000000;
-		accumulator_op <= 32'b00000000000000000000000000000000;
+		output_data = (store_output== 1'b1 | rst==0) ? accumulator_op: 32'b00000000000000000000000000000000 ;
+        accumulator_op = (store_output== 1'b1 | rst==0) ? accumulator_op_intermediate_wire[ARR_SIZE - 1] : 32'b00000000000000000000000000000000 ;
+        output_buffer_addr = (store_output== 1'b1 | rst==0) ? op_buffer_address : 4'b0000;
+        output_buffer_enable = (store_output== 1'b1 | rst==0) ? store_output : 1'b0;
 	end
 endmodule

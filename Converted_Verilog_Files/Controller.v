@@ -49,31 +49,31 @@ module controller (
 				;
 			5'b11111:
 				;
-			5'b00001: state_signal <= 2'b10;
+			5'b00001: state_signal = 2'b10;
 			5'b00010: begin
-				state_signal <= 2'b10;
-				i_mode <= 1'b1;
+				state_signal = 2'b10;
+				i_mode = 1'b1;
 			end
 			5'b00011: begin
-				state_signal <= 2'b01;
-				acc_to_op_buf_addr <= address[3:0];
-				acc_result_to_op_buf <= 1'b1;
+				state_signal = 2'b01;
+				acc_to_op_buf_addr = address[3:0];
+				acc_result_to_op_buf = 1'b1;
 			end
 			5'b00100: begin
-				state_signal <= 2'b01;
-				inp_buf_addr <= address[6:0];
-				inp_buf_data <= data;
+				state_signal = 2'b01;
+				inp_buf_addr = address[6:0];
+				inp_buf_data = data;
 			end
 			5'b00101: begin
-				state_signal <= 2'b01;
-				wt_buf_addr <= address[6:0];
-				wt_buf_data <= data;
+				state_signal = 2'b01;
+				wt_buf_addr = address[6:0];
+				wt_buf_data = data;
 			end
 			5'b00110: begin
-				out_buf_addr <= address[3:0];
-				op_buffer_instr_for_sending_data <= 1'b1;
+				out_buf_addr = address[3:0];
+				op_buffer_instr_for_sending_data = 1'b1;
 			end
-			5'b00111: instr_for_accum_to_reset <= 1'b1;
+			5'b00111: instr_for_accum_to_reset = 1'b1;
 			default:
 				;
 		endcase
