@@ -1,0 +1,21 @@
+
+27. Printing statistics.
+
+=== SystolicArray ===
+
+   Number of wires:                  7
+   Number of wire bits:            260
+   Number of public wires:           6
+   Number of public wire bits:     259
+   Number of ports:                  6
+   Number of port bits:            259
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                129
+     sky130_fd_sc_hd__buf_4        128
+     sky130_fd_sc_hd__conb_1         1
+
+   Chip area for module '\SystolicArray': 964.675200
+     of which used for sequential elements: 0.000000 (0.00%)
+

@@ -1,0 +1,4 @@
+
+26. Executing CHECK pass (checking for obvious problems).
+Checking module SystolicArray...
+Found and reported 0 problems.
