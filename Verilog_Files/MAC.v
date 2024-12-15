@@ -41,7 +41,7 @@ module MAC #(
 
 
                 if(i==0 && j==0) begin //top-left corner element
-                    PE pe_instance(
+                    PE pe_instance_tlcorner(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
@@ -54,7 +54,7 @@ module MAC #(
                 end
 
                 else if(i==0 && j!=0) begin //Top elements
-                    PE pe_instance(
+                    PE pe_instance_top(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
@@ -66,7 +66,7 @@ module MAC #(
                 end
 
                 else if(i!=0 && j==0) begin //Left elements
-                    PE pe_instance(
+                    PE pe_instance_left(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
@@ -78,7 +78,7 @@ module MAC #(
                 end
 
                 else if (i==ARR_SIZE-1 && j==0) begin // Bottom-Left element
-                    PE pe_instance(
+                    PE pe_instance_blcorner(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
@@ -90,7 +90,7 @@ module MAC #(
                 end
 
                 else if (i==ARR_SIZE-1 && j!=0) begin // Bottom Row elements element
-                    PE pe_instance(
+                    PE pe_instance_bottom(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
@@ -101,8 +101,8 @@ module MAC #(
                     );
                 end
 
-                if(i!=0 && j!=0) begin //Other elements
-                    PE pe_instance(
+                else if(i!=0 && j!=0) begin //Other elements
+                    PE pe_instance_middle(
                         .clk(clk),
                         .rst(rst),
                         .i_mode(i_mode),
