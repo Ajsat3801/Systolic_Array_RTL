@@ -18,32 +18,31 @@ module instruction_buffer (
 	reg [ADDR_WIDTH - 1:0] head;
 	reg [ADDR_WIDTH - 1:0] tail;
 	reg [ADDR_WIDTH:0] count;
-	initial begin
-		head = 0;
-		tail = 0;
-		count = 0;
-		buffer_full = 0;
-		instr_to_controller = 64'b0000000000000000000000000000000000000000000000000000000000000000;
-	end
+
 	always @(posedge external_clk) begin
-		buffer_full <= count == QUEUE_DEPTH;
-		if (!buffer_full) begin
-			queue[tail] <= interface_input;
-			tail <= (tail + 1) % QUEUE_DEPTH;
-			count <= count + 1;
-		end
-	end
-	always @(posedge clk)
+        
         if (rst == 1'b1) begin
             head = 0;
 		    tail = 0;
+            count = 0;
+            buffer_full = 0;
 		    queue[0] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
         end
-		else begin
+
+		buffer_full = count == QUEUE_DEPTH;
+		if (!buffer_full) begin
+			queue[tail] = interface_input;
+			tail = (tail + 1) % QUEUE_DEPTH;
+			count = count + 1;
+		end
+
+        if (clk == 1'b1) begin
             if (count > 0) begin
                 instr_to_controller = queue[head];
                 head = (head + 1) % QUEUE_DEPTH;
                 count = count - 1;
 		    end
         end
+
+	end
 endmodule

@@ -17,20 +17,15 @@ module individual_buffer (
 	reg [ADDR_WIDTH - 1:0] head;
 	reg [ADDR_WIDTH - 1:0] tail;
 	reg [ADDR_WIDTH:0] count;
-	initial begin
-		head = 0;
-		tail = 0;
-		count = 0;
-		individual_output = 16'b0000000000000000;
-	end
 	always @(posedge clk)
         if (rst == 1'b1) begin
             head = 0;
             tail = 0;
+            count = 0;
             queue[0] = 16'b0000000000000000;
         end
-		if (state == 2'b01) begin
-			queue[tail] = individual_input;
+		else if (state == 2'b01) begin
+            queue [tail] = individual_input;
 			tail = (tail + 1) % QUEUE_DEPTH;
 			count = count + 1;
 		end

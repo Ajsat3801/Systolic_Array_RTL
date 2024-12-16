@@ -72,7 +72,7 @@ module SystolicArray (
 		.op_buf_addr_for_external_comm(controller_to_op_buf_addr),
 		.op_buffer_instr_for_storing_data(acc_to_op_buf_enable),
 		.op_buffer_instr_for_sending_data(controller_to_op_buf_instr),
-		.res_to_external(accelerator_output)
+		.res_to_external(op_buf_output)
 	);
 	Accumulator Accumulator_instance(
 		.clk(clk),

@@ -66,7 +66,7 @@ module MAC (
 						.i_mode(i_mode),
 						.i_top(vertical_wires[i - 1][j]),
 						.i_left(horizontal_input[((i + 1) * HORIZONTAL_BW) - 1:i * HORIZONTAL_BW]),
-						.o_bot(op_wire[(j + 1) * HORIZONTAL_BW:j * HORIZONTAL_BW]),
+						.o_bot(op_wire[(j + 1) * VERTICAL_BW:j * VERTICAL_BW]),
 						.o_right(horizontal_wires[i][j])
 					);
 				end
@@ -77,7 +77,7 @@ module MAC (
 						.i_mode(i_mode),
 						.i_top(vertical_wires[i - 1][j]),
 						.i_left(horizontal_wires[i][j - 1]),
-						.o_bot(op_wire[(j + 1) * HORIZONTAL_BW:j * HORIZONTAL_BW]),
+						.o_bot(op_wire[(j + 1) * VERTICAL_BW_BW:j * VERTICAL_BW_BW]),
 						.o_right(horizontal_wires[i][j])
 					);
 				end
