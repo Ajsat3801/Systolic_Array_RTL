@@ -18,14 +18,14 @@ module Output_buffer (
 	output reg [31:0] res_to_external;
 	reg [31:0] buf_data [0:15];
 	always @(posedge clk) begin
-		if (op_buffer_instr_for_sending_data == 1'b1)
-			res_to_external <= buf_data[op_buf_addr_for_external_comm];
-		if (op_buffer_instr_for_storing_data == 1'b1)
-			buf_data[op_buf_addr_for_store] <= data;
-	end
-	always @(posedge clk) begin : sv2v_autoblock_1
-		integer i;
-		for (i = 0; i < 16; i = i + 1)
-			buf_data[i] <= 32'b00000000000000000000000000000000;
+        if(rst==1'b1) begin
+            integer i;
+            for (i = 0; i < 16; i = i + 1)
+                buf_data[i] = 32'b00000000000000000000000000000000;
+        end
+        else if (op_buffer_instr_for_sending_data == 1'b1)
+			res_to_external = buf_data[op_buf_addr_for_external_comm];
+		else if (op_buffer_instr_for_storing_data == 1'b1)
+			buf_data[op_buf_addr_for_store] = data;
 	end
 endmodule

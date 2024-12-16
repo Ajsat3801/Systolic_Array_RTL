@@ -74,7 +74,7 @@ module controller (
 				wt_buf_data = data_wire;
 			end
 			5'b00110: begin
-				out_buf_addr = address[3:0];
+				out_buf_addr = address_wire[3:0];
 				op_buffer_instr_for_sending_data = 1'b1;
 			end
 			5'b00111: instr_for_accum_to_reset = 1'b1;
