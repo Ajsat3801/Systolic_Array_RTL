@@ -1,0 +1,7 @@
+OpenROAD v2.0-17258-gc1904e24e 
+Features included (+) or not (-): +Charts +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 32 thread(s).
+No macros found: Skipping macro_placement
+Elapsed time: 0:11.31[h:]min:sec. CPU time: user 6.94 sys 1.21 (72%). Peak memory: 354100KB.

@@ -20,8 +20,12 @@ module Accumulator (
 	output reg [31:0] output_data;
 	output reg [3:0] output_buffer_addr;
 	output reg output_buffer_enable;
-	reg [31:0] accumulator_op;
+	reg [31:0] accumulator_op; // internal register
 	wire [31:0] accumulator_op_intermediate_wire [ARR_SIZE - 1:0];
+    wire [3:0] op_buffer_address_wire;
+    wire output_buffer_enable_wire;
+    assign op_buffer_address_wire = op_buffer_address;
+    assign output_buffer_enable_wire = store_output;
 	genvar _gv_k_1;
 	generate
 		for (_gv_k_1 = 0; _gv_k_1 < ARR_SIZE; _gv_k_1 = _gv_k_1 + 1) begin : gen_final_accumulation
@@ -57,10 +61,8 @@ module Accumulator (
 	endgenerate
 	always @(posedge clk) begin
 		output_data = (store_output== 1'b1 | rst==0) ? accumulator_op: 32'b00000000000000000000000000000000 ;
-        accumulator_op = (store_output== 1'b1 | rst==0) ? accumulator_op_intermediate_wire[ARR_SIZE - 1] : 32'b00000000000000000000000000000000 ;
-        output_buffer_addr = (store_output== 1'b1 | rst==0) ? op_buffer_address : 4'b0000;
-        output_buffer_enable = (store_output== 1'b1 | rst==0) ? store_output : 1'b0;
+        accumulator_op = (rst==0) ? accumulator_op_intermediate_wire[ARR_SIZE - 1] : 32'b00000000000000000000000000000000 ;
+        output_buffer_addr = (store_output== 1'b1 | rst==0) ? op_buffer_address_wire : 4'b0000;
+        output_buffer_enable = (store_output== 1'b1 | rst==0) ? output_buffer_enable_wire : 1'b0;
 	end
 endmodule
-
-// Remove initialization in line 23

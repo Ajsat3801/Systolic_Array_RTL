@@ -36,6 +36,7 @@ module SystolicArray (
 	);
 	controller controller_instance(
 		.clk(clk),
+        .rst(rst),
 		.instruction(instr_buffer_to_controller),
 		.inp_buf_addr(controller_to_inp_buf_addr),
 		.inp_buf_data(controller_to_inp_buf_data),
@@ -83,7 +84,7 @@ module SystolicArray (
 		.store_output(controller_to_acc_send_op),
 		.output_data(acc_to_op_buf_data),
 		.output_buffer_addr(acc_to_op_buf_addr),
-		.output_buffer_enable(acc_to_op_buf_enable)
+		.output_buffer_enable(acc_to_op_buf_enable),
 	);
 	BankedBuffer weight_buffer_instance(
 		.clk(clk),
