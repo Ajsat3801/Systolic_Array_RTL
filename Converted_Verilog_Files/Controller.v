@@ -1,6 +1,5 @@
 module controller (
 	clk,
-    rst,
 	instruction,
 	inp_buf_addr,
 	inp_buf_data,
@@ -36,18 +35,51 @@ module controller (
     assign address_wire = instruction[10:5];
     assign data_wire = instruction[42:11];
 
-    always @(posedge clk) begin
-        inp_buf_addr <= (rst==0 & opcode_wire==5'b00100 ) ? address_wire : 7'b0000000;
-		inp_buf_data <= (rst==0 & opcode_wire==5'b00100 ) ? data_wire : 32'b00000000000000000000000000000000;
-		wt_buf_addr <= (rst==0 & opcode_wire==5'b00101 ) ? address_wire : 7'b0000000;
-		wt_buf_data <= (rst==0 & opcode_wire==5'b00101 ) ? data_wire : 32'b00000000000000000000000000000000;
-		acc_to_op_buf_addr <= (rst==0 & opcode_wire==5'b00011 ) ? address_wire[3:0] : 4'b0000;
-		acc_result_to_op_buf <= (rst==0 & opcode_wire==5'b00011 )? 1'b1 : 1'b0;
-		out_buf_addr <= (rst==0 & opcode_wire==5'b00110 ) ? address_wire[3:0] : 4'b0000;
-		op_buffer_instr_for_sending_data <= (rst==0 & opcode_wire==5'b00110 ) ? 1'b1 : 1'b0;
-		instr_for_accum_to_reset <= (rst==0 & opcode_wire==5'b00111 ) ? 1'b1 : 1'b0;
-		state_signal = (rst==0 & (opcode_wire==5'b00011 | opcode_wire==5'b00100 | opcode_wire==5'b00101))? 2'b01:((rst==0 & (opcode_wire==5'b00001 | opcode_wire==5'b00010 ))? 2'b10 : 2'b00);
-		i_mode <= (rst==0 & opcode_wire==5'b00010 ) ? 1'b1 : 1'b0;
-    end
-endmodule
 
+	always @(posedge clk) begin
+		inp_buf_addr = 7'b0000000;
+		inp_buf_data = 32'b00000000000000000000000000000000;
+		wt_buf_addr = 7'b0000000;
+		wt_buf_data = 32'b00000000000000000000000000000000;
+		acc_to_op_buf_addr = 4'b0000;
+		acc_result_to_op_buf = 1'b0;
+		out_buf_addr = 4'b0000;
+		op_buffer_instr_for_sending_data = 1'b0;
+		instr_for_accum_to_reset = 1'b0;
+		state_signal = 2'b00;
+		i_mode = 1'b0;
+		case (opcode_wire)
+			5'b00000:
+				;
+			5'b11111:
+				;
+			5'b00001: state_signal = 2'b10;
+			5'b00010: begin
+				state_signal = 2'b10;
+				i_mode = 1'b1;
+			end
+			5'b00011: begin
+				state_signal = 2'b01;
+				acc_to_op_buf_addr = address_wire[3:0];
+				acc_result_to_op_buf = 1'b1;
+			end
+			5'b00100: begin
+				state_signal = 2'b01;
+				inp_buf_addr = address_wire[6:0];
+				inp_buf_data = data_wire;
+			end
+			5'b00101: begin
+				state_signal = 2'b01;
+				wt_buf_addr = address_wire[6:0];
+				wt_buf_data = data_wire;
+			end
+			5'b00110: begin
+				out_buf_addr = address[3:0];
+				op_buffer_instr_for_sending_data = 1'b1;
+			end
+			5'b00111: instr_for_accum_to_reset = 1'b1;
+			default:
+				;
+		endcase
+	end
+endmodule
