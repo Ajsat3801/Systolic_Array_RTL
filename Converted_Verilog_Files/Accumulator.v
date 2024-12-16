@@ -20,7 +20,7 @@ module Accumulator (
 	output reg [31:0] output_data;
 	output reg [3:0] output_buffer_addr;
 	output reg output_buffer_enable;
-	reg [31:0] accumulator_op = 32'b00000000000000000000000000000000;
+	reg [31:0] accumulator_op;
 	wire [31:0] accumulator_op_intermediate_wire [ARR_SIZE - 1:0];
 	genvar _gv_k_1;
 	generate
@@ -62,3 +62,5 @@ module Accumulator (
         output_buffer_enable = (store_output== 1'b1 | rst==0) ? store_output : 1'b0;
 	end
 endmodule
+
+// Remove initialization in line 23
