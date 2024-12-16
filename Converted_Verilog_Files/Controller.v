@@ -26,13 +26,17 @@ module controller (
 	output reg instr_for_accum_to_reset;
 	output reg [1:0] state_signal;
 	output reg i_mode;
-	reg [4:0] opcode;
-	reg [13:0] address;
-	reg [31:0] data;
+
+    wire [4:0] opcode_wire;
+    wire [6:0] address_wire;
+    wire [31:0] data_wire;
+
+    assign opcode_wire = instruction[4:0];
+    assign address_wire = instruction[10:5];
+    assign data_wire = instruction[42:11]
+
+
 	always @(posedge clk) begin
-		opcode = instruction[4:0];
-		address = instruction[20:5];
-		data = instruction[52:21];
 		inp_buf_addr = 7'b0000000;
 		inp_buf_data = 32'b00000000000000000000000000000000;
 		wt_buf_addr = 7'b0000000;
@@ -56,7 +60,7 @@ module controller (
 			end
 			5'b00011: begin
 				state_signal = 2'b01;
-				acc_to_op_buf_addr = address[3:0];
+				acc_to_op_buf_addr = address_wire[3:0];
 				acc_result_to_op_buf = 1'b1;
 			end
 			5'b00100: begin
