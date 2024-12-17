@@ -2,11 +2,11 @@
 
 ## Architecture
 
-![Alt text](https://github.com/Ajsat3801/Systolic_Array_RTL/blob/main/Docs/architecture.png "Architecture")
+![Alt text](https://github.com/Ajsat3801/Systolic_Array_RTL/blob/main/Docs/Architecture.png "Architecture")
 
 ## Instructions for the accelerator
 
-![Alt text](https://github.com/Ajsat3801/Systolic_Array_RTL/blob/main/Docs/instructions.png "Instructions")
+![Alt text](https://github.com/Ajsat3801/Systolic_Array_RTL/blob/main/Docs/Instructions.png "Instructions")
 
 ## Directory Structure
 ```
