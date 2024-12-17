@@ -1,15 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////
-// BFP16 Multiplier 
-
-// https://github.com/danshanley/FPU/blob/master/fpu.v
-// with slight modifications to turn FP32 to BFP16
-// for area approximation
-
-// Format: 1-bit signed, 8-bit exponents, 7-bit fractions
-
-// NOTE: MORE VERIFICATION NEEDED
-/////////////////////////////////////////////////////////////
 
 module bfp16_mult(clk, rst, A, B, O);
 
