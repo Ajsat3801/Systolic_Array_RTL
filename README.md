@@ -1,4 +1,4 @@
-# Systolic Array Accelerator for Real TIme Object Detection in Autonomous vehicles
+# Systolic Array Accelerator for Real Time Object Detection in Autonomous vehicles
 
 ## Architecture
 
